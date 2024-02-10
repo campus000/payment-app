@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Software</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Billing Software</h1>
+</header>
+
+<main>
+    <div class="button-container" id="button-container">
+        <!-- Buttons will be dynamically added here -->
+    </div>
+
+    <div class="added-items-container">
+        <div class="added-items" id="added-items">
+            <h2>Added Items:</h2>
+            <!-- Added items will be displayed here -->
+        </div>
+        <div class="summary" id="summary">
+            <h3>Summary:</h3>
+            <p><strong>Price:</strong> <span id="price">0</span></p>
+            <p><strong>Tax (5%):</strong> <span id="tax">0</span></p>
+            <p><strong>Total:</strong> <span id="total">0</span></p>
+            <button id="print-button" class="button" onclick="printReceipt()">Print Receipt</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</main>
+
+</body>
+</html>
