@@ -56,17 +56,19 @@ main {
 
 /* Added Items Container */
 .added-items-container {
-    width: 100%; /* Adjusted to full width for tablets */
+    width: 100%; /* Adjusted to full width for mobile and tablets */
     overflow-y: auto;
-    margin-right: 0; /* Removed margin-right for tablets */
-    padding-right: 0; /* Removed padding-right for tablets */
-    border-right: none; /* Removed border for tablets */
+    margin-right: 0; /* Removed margin-right for mobile and tablets */
+    padding-right: 0; /* Removed padding-right for mobile and tablets */
+    border-right: none; /* Removed border for mobile and tablets */
 }
 
 /* Remaining Styles remain unchanged */
 
-/* Media Query for Tablet Screens */
-@media screen and (max-width: 1024px) {
+/* Media Queries */
+
+/* Tablet Screens (up to 768px) */
+@media screen and (max-width: 768px) {
     main {
         flex-direction: column; /* Stack items vertically for tablets */
     }
@@ -84,5 +86,13 @@ main {
 
     .summary {
         width: 100%; /* Adjusted to full width for tablets */
+    }
+}
+
+/* Mobile Screens (up to 480px) */
+@media screen and (max-width: 480px) {
+    .button {
+        width: 120px; /* Adjust button width for smaller screens */
+        font-size: 16px; /* Adjust font size for smaller screens */
     }
 }
