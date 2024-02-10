@@ -78,11 +78,22 @@ main {
     }
 
     .added-items-container {
-        width: 100%; /* Adjusted to full width for tablets */
-        margin-right: 0; /* Removed margin-right for tablets */
-        padding-right: 0; /* Removed padding-right for tablets */
-        border-right: none; /* Removed border for tablets */
-    }
+    display: flex; /* Use flexbox */
+    justify-content: space-between; /* Distribute space between items */
+    align-items: flex-start; /* Align items at the start of the cross axis */
+    width: 100%;
+    overflow-y: auto;
+    margin-right: 0;
+    padding-right: 0;
+    border-right: none;
+    flex-wrap: wrap; /* Allow wrapping if necessary */
+}
+
+.added-items,
+.summary {
+    width: calc(50% - 10px); /* Set width to 50% minus margins */
+    margin-bottom: 20px; /* Add margin between the two elements */
+}
 
     .summary {
         width: 100%; /* Adjusted to full width for tablets */
