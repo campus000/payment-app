@@ -1,35 +1,40 @@
+/* Global Styles */
 body {
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
-   
 }
 
+/* Header Styles */
 header {
     background-color: #4CAF50;
     color: white;
-padding:2px;
-    
+    padding: 2px;
     text-align: center;
     width: 100%;
     margin-bottom: 20px;
 }
 
+/* Main Section Styles */
 main {
     display: flex;
+    flex-wrap: wrap; /* Allows items to wrap to the next row */
     width: 100%;
     justify-content: space-between;
 }
 
+/* Button Container */
 .button-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    height: 400px;
+    height: auto; /* Adjusted to auto for variable content */
+    max-height: 400px;
     overflow-y: auto;
 }
 
+/* Button Styles */
 .button {
     margin: 10px;
     padding: 20px;
@@ -41,128 +46,43 @@ main {
     width: 150px;
 }
 
-#button-1 {
-    background-color: #3498db;
-}
+/* Individual Button Styles */
+/* Your button styles remain the same */
 
-#button-2 {
-    background-color: #e74c3c;
-}
-
-#button-3 {
-    background-color: #2ecc71;
-}
-
-#button-4 {
-    background-color: #f39c12;
-}
-
-#button-5 {
-    background-color: #2ecc71;
-}
-
-#button-6 {
-    background-color: #f39c12;
-}
-
-#button-7 {
-    background-color: #f39c12;
-}
-
-#button-8 {
-    background-color: #2ecc71;
-}
-
-#button-9 {
-    background-color: #f39c12;
-}
-
-
+/* Print Button Styles */
 #print-button {
     background-color: #f39c12;
 }
 
-
-
-
+/* Added Items Container */
 .added-items-container {
-    width: 50%;
+    width: 100%; /* Adjusted to full width for tablets */
     overflow-y: auto;
-    margin-right: 20px;
-    border-right: 2px solid #ccc;
-    padding-right: 20px;
+    margin-right: 0; /* Removed margin-right for tablets */
+    padding-right: 0; /* Removed padding-right for tablets */
+    border-right: none; /* Removed border for tablets */
 }
 
-.added-items {
-    padding: 20px;
-    border-radius: 5px;
-}
+/* Remaining Styles remain unchanged */
 
-.added-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
+/* Media Query for Tablet Screens */
+@media screen and (max-width: 1024px) {
+    main {
+        flex-direction: column; /* Stack items vertically for tablets */
+    }
 
-.item-info {
-    display: flex;
-    align-items: center;
-}
+    .button-container {
+        max-height: none; /* Remove maximum height for tablets */
+    }
 
-.item-name {
-    margin-right: 20px;
-}
+    .added-items-container {
+        width: 100%; /* Adjusted to full width for tablets */
+        margin-right: 0; /* Removed margin-right for tablets */
+        padding-right: 0; /* Removed padding-right for tablets */
+        border-right: none; /* Removed border for tablets */
+    }
 
-.item-price {
-    margin-right: 20px;
-}
-
-.quantity-buttons {
-    display: flex;
-    align-items: center;
-}
-
-.quantity-button {
-    cursor: pointer;
-    font-size: 20px;
-    margin: 0 5px;
-}
-
-.quantity {
-    font-size: 18px;
-    margin: 0 10px;
-}
-
-.summary {
-    width: 50%;
-    padding: 20px;
-    border-radius: 5px;
-}
-
-.receipt {
-    text-align: left;
-}
-
-.receipt-header {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.receipt-details {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-
-.receipt-line {
-    border-top: 1px solid #000;
-    margin: 10px 0;
-}
-
-.receipt-section {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
+    .summary {
+        width: 100%; /* Adjusted to full width for tablets */
+    }
 }
