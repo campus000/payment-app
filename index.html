@@ -100,6 +100,36 @@
             <p><strong>Total:</strong> <span id="total">0</span></p>
             <button id="print-button" class="button" onclick="printReceipt()">Print Receipt</button>
         </div>
+         <div id="cards">
+      <paper-card heading="Bluetooth Printer">
+        <div class="card-content">
+          <paper-progress id="progress" indeterminate></paper-progress>
+        </div>
+      </paper-card>
+
+      <paper-card id="logo">
+        <div class="card-content">
+          <image id="image" src="logo-black.png" width="200px"></image>
+        </div>
+      </paper-card>
+
+      <paper-card>
+        <div class="card-content">
+          <paper-textarea id="message" label="Enter Message"></paper-textarea>
+        </div>
+      </paper-card>
+
+      <paper-card>
+        <div class="card-content">
+          <paper-button id="print" raised class="colorful">Print</paper-button>
+        </div>
+      </paper-card>
+
+      <paper-dialog id="dialog">
+        <h2>Error</h2>
+        <p>Could not connect to bluetooth device!</p>
+      </paper-dialog>
+    </div>
     </div>
 
     <script src="script.js"></script>
