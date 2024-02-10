@@ -241,13 +241,11 @@
         }
 
         function sendPrinterData() {
-          // Print an image followed by the text
-          sendImageData()
-          .then(sendTextData)
-          .then(() => {
-            progress.hidden = true;
-          })
-          .catch(handleError);
+            sendTextData()
+            .then(() => {
+                progress.hidden = true;
+            })
+            .catch(handleError);
         }
 
         printButton.addEventListener('click', function () {
