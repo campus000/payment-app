@@ -27,119 +27,12 @@
             <p><strong>Price:</strong> <span id="price">0</span></p>
             <p><strong>Tax (5%):</strong> <span id="tax">0</span></p>
             <p><strong>Total:</strong> <span id="total">0</span></p>
-            <!-- Print button from previous code -->
-            <button id="print" class="colorful" onclick="printReceipt()">Print Receipt</button>
+            <button id="print-button" class="button" onclick="printReceipt()">Print Receipt</button>
         </div>
     </div>
 
     <script src="script.js"></script>
-
-    <!-- Bluetooth Printer Code -->
-    <paper-card heading="Bluetooth Printer">
-        <div class="card-content">
-            <paper-progress id="progress" indeterminate></paper-progress>
-        </div>
-    </paper-card>
-
-    <paper-card>
-        <div class="card-content">
-            <paper-textarea id="message" label="Enter Message"></paper-textarea>
-        </div>
-    </paper-card>
-
-    <paper-card>
-        <div class="card-content">
-            <paper-button id="print" raised class="colorful">Print</paper-button>
-        </div>
-    </paper-card>
-
-    <paper-dialog id="dialog">
-        <h2>Error</h2>
-        <p>Could not connect to Bluetooth device!</p>
-    </paper-dialog>
 </main>
-
-<!-- JavaScript code for Bluetooth Printer -->
-<script>
-    'use strict';
-    document.addEventListener('WebComponentsReady', function() {
-        let progress = document.querySelector('#progress');
-        let dialog = document.querySelector('#dialog');
-        let message = document.querySelector('#message');
-        let printButton = document.querySelector('#print');
-        let printCharacteristic;
-        let index = 0;
-        let data;
-        progress.hidden = true;
-
-        function handleError(error) {
-            console.log(error);
-            progress.hidden = true;
-            printCharacteristic = null;
-            dialog.open();
-        }
-
-        function sendNextImageDataBatch(resolve, reject) {
-            if (index + 512 < data.length) {
-                printCharacteristic.writeValue(data.slice(index, index + 512)).then(() => {
-                    index += 512;
-                    sendNextImageDataBatch(resolve, reject);
-                })
-                .catch(error => reject(error));
-            } else {
-                if (index < data.length) {
-                    printCharacteristic.writeValue(data.slice(index, data.length)).then(() => {
-                        resolve();
-                    })
-                    .catch(error => reject(error));
-                } else {
-                    resolve();
-                }
-            }
-        }
-
-        function sendTextData() {
-            let encoder = new TextEncoder("utf-8");
-            let text = encoder.encode(message.value + '\u000A\u000D');
-            return printCharacteristic.writeValue(text).then(() => {
-                console.log('Write done.');
-            });
-        }
-
-        function sendPrinterData() {
-            sendTextData()
-            .then(() => {
-                progress.hidden = true;
-            })
-            .catch(handleError);
-        }
-
-        printButton.addEventListener('click', function () {
-            progress.hidden = false;
-            if (printCharacteristic == null) {
-                navigator.bluetooth.requestDevice({
-                    filters: [{
-                        services: ['000018f0-0000-1000-8000-00805f9b34fb']
-                    }]
-                })
-                .then(device => {
-                    console.log('> Found ' + device.name);
-                    console.log('Connecting to GATT Server...');
-                    return device.gatt.connect();
-                })
-                .then(server => server.getPrimaryService("000018f0-0000-1000-8000-00805f9b34fb"))
-                .then(service => service.getCharacteristic("00002af1-0000-1000-8000-00805f9b34fb"))
-                .then(characteristic => {
-                    printCharacteristic = characteristic;
-                    sendPrinterData();
-                })
-                .catch(handleError);
-            } else {
-                sendPrinterData();
-            }
-        });
-    });
-</script>
 
 </body>
 </html>
