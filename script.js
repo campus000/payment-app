@@ -342,7 +342,7 @@ function generateReceiptContent()
     let content = '';
 
     // Header with Rectangle around "Campus savories" and spaces added
-    content += '++++++++++++++++++++++++++++++Campus savories+ GST No-29ABEPS2937F1ZF\n';
+    content += ' Campus savories+ GST No-29ABEPS2937F1ZF\n';
   
  
 
