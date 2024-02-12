@@ -369,15 +369,7 @@ content += '------------------------------------------------\n';
 
 // Loop through added items and display them in the table
 let totalAmount = 0;
-
-/* for (const item in addedItems) {
-  const itemCost = addedItems[item].price * addedItems[item].quantity;
-
-  // Item Row with adjusted spacing
-
-  content += `${item.padEnd(14)}${addedItems[item].quantity.toString().padEnd(14)}${itemCost.toFixed(2)}\n`;
-  totalAmount += itemCost;
-}*/
+ 
 
 // Loop through added items and display them in the table
 for (const item in addedItems) {
@@ -431,7 +423,7 @@ content += '\n';
 content += '\n';
 content += '\n';
 return content;
-}*
+}*/
 
 
 // Call the function to create buttons from CSV
