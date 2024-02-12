@@ -100,13 +100,13 @@
           });
         }
 
-        function sendPrinterData() {
+       /* function sendPrinterData() {
             sendTextData()
             .then(() => {
                 progress.hidden = true;
             })
             .catch(handleError);
-        }
+        }*/
 
         printButton.addEventListener('click', function () {
           progress.hidden = false;
@@ -132,17 +132,12 @@
           } else {
             sendPrinterData();
           }
-        }
-        
-        );
-        
-      }
-      
-      );// Object to store added items and their quantities
-const addedItems = {};
 
- async function createButtonsFromCSV() {
-    try {
+        });
+
+        const addedItems = {};
+        async function createButtonsFromCSV() {
+          try {
         const response = await fetch('menu.csv');
         const csvData = await response.text();
 
@@ -323,41 +318,90 @@ function updateSummary() {
     totalSpan.textContent = total.toFixed(2);
 }
 
+ function sendPrintRequest(receiptContent) {
  
-function sendPrintRequest(receiptContent) {
-    if (printCharacteristic == null) {
-        navigator.bluetooth.requestDevice({
-          filters: [{
-            services: ['000018f0-0000-1000-8000-00805f9b34fb']
-          }]
-        })
-        .then(device => {
-          console.log('> Found ' + device.name);
-          console.log('Connecting to GATT Server...');
-          return device.gatt.connect();
-        })
-        .then(server => server.getPrimaryService("000018f0-0000-1000-8000-00805f9b34fb"))
-        .then(service => service.getCharacteristic("00002af1-0000-1000-8000-00805f9b34fb"))
-        .then(characteristic => {
-          // Cache the characteristic
-          printCharacteristic = characteristic;
-          sendPrinterData();
-        })
-        .catch(handleError);
-      } else {
-        sendPrinterData();
-      }
-    
+     
 }
 
 // Function to print the receipt
 function printReceipt() {
+    alert("a");
+    progress.hidden = false;
+          if (printCharacteristic == null) {
+            navigator.bluetooth.requestDevice({
+              filters: [{
+                services: ['000018f0-0000-1000-8000-00805f9b34fb']
+              }]
+            })
+            .then(device => {
+              console.log('> Found ' + device.name);
+              console.log('Connecting to GATT Server...');
+              return device.gatt.connect();
+            })
+            .then(server => server.getPrimaryService("000018f0-0000-1000-8000-00805f9b34fb"))
+            .then(service => service.getCharacteristic("00002af1-0000-1000-8000-00805f9b34fb"))
+            .then(characteristic => {
+              // Cache the characteristic
+              printCharacteristic = characteristic;
+              sendPrinterData();
+            })
+            .catch(handleError);
+          } else {
+            sendPrinterData();
+          }
     const receiptContent = generateReceiptContent();
  
         sendPrintRequest(receiptContent);
      
+
+
 }
 
+
+
+printButton.addEventListener('click', function () {
+    alert("a");
+
+    progress.hidden = false;
+    if (printCharacteristic == null) {
+      navigator.bluetooth.requestDevice({
+        filters: [{
+          services: ['000018f0-0000-1000-8000-00805f9b34fb']
+        }]
+      })
+      .then(device => {
+        console.log('> Found ' + device.name);
+        console.log('Connecting to GATT Server...');
+        return device.gatt.connect();
+      })
+      .then(server => server.getPrimaryService("000018f0-0000-1000-8000-00805f9b34fb"))
+      .then(service => service.getCharacteristic("00002af1-0000-1000-8000-00805f9b34fb"))
+      .then(characteristic => {
+        // Cache the characteristic
+        printCharacteristic = characteristic;
+        sendPrinterData();
+      })
+      .catch(handleError);
+    } else {
+      sendPrinterData();
+    }
+
+  });
+
+  function sendPrinterData() {
+    generateReceiptContent()
+        .then(content => {
+            return sendTextData(content);
+        })
+        .then(() => {
+            progress.hidden = true;
+        })
+        .catch(handleError);
+}
+
+
+  
+/*
 function generateReceiptContent() {
     const currentDate = new Date();
     const formattedDate = currentDate.toDateString();
@@ -387,14 +431,7 @@ function generateReceiptContent() {
     // Loop through added items and display them in the table
     let totalAmount = 0;
 
-   /* for (const item in addedItems) {
-        const itemCost = addedItems[item].price * addedItems[item].quantity;
-
-        // Item Row with adjusted spacing
- 
-        content += `${item.padEnd(14)}${addedItems[item].quantity.toString().padEnd(14)}${itemCost.toFixed(2)}\n`;
-        totalAmount += itemCost;
-    }*/
+   
     
     // Loop through added items and display them in the table
 for (const item in addedItems) {
@@ -448,6 +485,10 @@ content += `Grand Total:               Rs ${Math.round(roundedGrandTotal).toFixe
     content += '\n';
     content += '\n';
     return content;
-}
+}*/
+
+
+
 // Call the function to create buttons from CSV
 createButtonsFromCSV();
+});
