@@ -102,12 +102,16 @@
         }
 
         function sendPrinterData() {
-            sendTextData()
-            .then(() => {
-                progress.hidden = true;
-            })
-            .catch(handleError);
-        }
+    // Generate receipt content
+    let receiptContent = generateReceiptContent();
+
+    // Send receipt content to the printer
+    sendTextData(receiptContent)
+        .then(() => {
+            progress.hidden = true;
+        })
+        .catch(handleError);
+}
 
         printButton.addEventListener('click', function () {
           progress.hidden = false;
