@@ -74,6 +74,10 @@ main {
     display: flex; /* Use flexbox */
  
 }
+.added-items {
+    width: 100%; /* Use flexbox */
+ 
+}
 
  
 
