@@ -339,7 +339,7 @@ function generateReceiptContent()
 
 {
   let content = 'jhsdkjasd';
-  retutn content;
+  return content;
 }
 /*function generateReceiptContent() {
 const currentDate = new Date();
