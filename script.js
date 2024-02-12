@@ -87,9 +87,26 @@ document.addEventListener('WebComponentsReady', function() {
       }
     }
   }
+function sendTextData() {
+          // Get the bytes for the text
+          let encoder = new TextEncoder("utf-8");
+          // Add line feed + carriage return chars to text
+          let text = encoder.encode(message.value + '\u000A\u000D');
+          return printCharacteristic.writeValue(text).then(() => {
+            console.log('Write done.');
+          });
+        }
+
+        function sendPrinterData() {
+            sendTextData()
+            .then(() => {
+                progress.hidden = true;
+            })
+            .catch(handleError);
+        }
 
     
-
+/*
   function sendTextData(text) {
     let encoder = new TextEncoder("utf-8");
     // Add line feed + carriage return chars to text
@@ -103,14 +120,12 @@ document.addEventListener('WebComponentsReady', function() {
 function printReceipt() {
     const receiptContent = generateReceiptContent(); // Generate the receipt content
   alert(receiptContent);
-  alert("here");
-    sendTextData(receiptContent) // Send the generated content for printing
-        .then(() => {
+     sendTextData(receiptContent) // Send the generated content for printing        .then(() => {
             progress.hidden = true; // Hide progress indicator or handle success
         })
         .catch(handleError); // Handle errors if any
 }
-
+*/
   function sendPrinterData() {
       sendTextData()
       .then(() => {
@@ -137,13 +152,13 @@ function printReceipt() {
       .then(characteristic => {
         // Cache the characteristic
         printCharacteristic = characteristic;
-        printReceipt();
-
+       // printReceipt();
+sendPrinterData();
 
       })
       .catch(handleError);
     } else {
-      printReceipt();
+sendPrinterData();
     }
   });
 });// Object to store added items and their quantities
