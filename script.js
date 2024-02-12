@@ -131,24 +131,14 @@ function displayAddedItem(item, price, quantity) {
     const itemPrice = document.createElement('span');
     itemPrice.className = 'item-price';
     itemPrice.textContent = `Rs${price * quantity}`;
-
+    itemPrice.style.marginLeft = '10px'; // Adjust the value as needed
+    
+        itemPrice.style.marginRight = '100px'; // Adjust the value as needed
+    
+    
     const quantityButtons = document.createElement('div');
     quantityButtons.className = 'quantity-buttons';
-
-    const plusButton = document.createElement('span');
-    plusButton.className = 'quantity-button';
-    plusButton.innerHTML = '+';
-    plusButton.addEventListener('click', function () {
-        addedItems[item].quantity += 1;
-        updateAddedItemDisplay();
-        updateSummary();
-    });
-
-    const quantityDisplay = document.createElement('span');
-    quantityDisplay.className = 'quantity';
-    quantityDisplay.textContent = quantity;
-
-    const minusButton = document.createElement('span');
+const minusButton = document.createElement('span');
     minusButton.className = 'quantity-button';
     minusButton.innerHTML = '-';
     minusButton.addEventListener('click', function () {
@@ -164,7 +154,23 @@ function displayAddedItem(item, price, quantity) {
         }
     });
 
+
+   
+    const quantityDisplay = document.createElement('span');
+    quantityDisplay.className = 'quantity';
+    quantityDisplay.textContent = quantity;
+
+     const plusButton = document.createElement('span');
+    plusButton.className = 'quantity-button';
+    plusButton.innerHTML = '+';
+    plusButton.addEventListener('click', function () {
+        addedItems[item].quantity += 1;
+        updateAddedItemDisplay();
+        updateSummary();
+    });
+
     itemInfoContainer.appendChild(itemName);
+        itemInfoContainer.appendChild(document.createTextNode(' ')); // Add a space12
     itemInfoContainer.appendChild(itemPrice);
 
     quantityButtons.appendChild(plusButton);
@@ -176,7 +182,6 @@ function displayAddedItem(item, price, quantity) {
 
     addedItemsContainer.appendChild(newItemContainer);
 }
-
 // Function to update the display of added item quantity
 function updateAddedItemDisplay() {
     const addedItemsContainer = document.getElementById('added-items');
