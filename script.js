@@ -331,8 +331,17 @@ totalSpan.textContent = total.toFixed(2);
 }
 
 
+function generateReceiptContent()
 
-function generateReceiptContent() {
+
+
+
+
+{
+  let content = 'jhsdkjasd';
+  retutn content;
+}
+/*function generateReceiptContent() {
 const currentDate = new Date();
 const formattedDate = currentDate.toDateString();
 const formattedTime = currentDate.toLocaleTimeString();
@@ -422,6 +431,8 @@ content += '\n';
 content += '\n';
 content += '\n';
 return content;
-}
+}*
+
+
 // Call the function to create buttons from CSV
 createButtonsFromCSV();
