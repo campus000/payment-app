@@ -95,7 +95,7 @@
     // Get the bytes for the text
     let encoder = new TextEncoder("utf-8");
     // Add line feed + carriage return chars to text
-    let text = encoder.encode(content + '\u000A\u000D');
+    let text = encoder.encode(message.content + '\u000A\u000D');
     return printCharacteristic.writeValue(text).then(() => {
         console.log('Write done.');
     });
