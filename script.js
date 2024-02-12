@@ -99,9 +99,10 @@ document.addEventListener('WebComponentsReady', function() {
     });
 }
 function printReceipt() {
-    const receiptContent = generateReceiptContent(); // Generate the receipt content
-    sendTextData(receiptContent) // Send the generated content for printing
-        .then(() => {
+    const receiptContent = generateReceiptContent(); 
+alert(receiptContent);
+  alert("a");
+  sendTextData(receiptContent) // Send the generated content for printing        .then(() => {
             progress.hidden = true; // Hide progress indicator or handle success
         })
         .catch(handleError); // Handle errors if any
