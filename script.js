@@ -266,6 +266,8 @@ const quantityButtons = document.createElement('div');
 quantityButtons.className = 'quantity-buttons';
 const minusButton = document.createElement('span');
 minusButton.style.marginleft='50px';
+  minusButton.style.marginRight='50px';
+
 minusButton.className = 'quantity-button';
 minusButton.innerHTML = '-';
 minusButton.addEventListener('click', function () {
