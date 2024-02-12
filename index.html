@@ -100,7 +100,11 @@
             <button id="print-button" class="button" onclick="printReceipt()">Print Receipt</button>
         </div>
          <div id="cards">
-       
+       <paper-card heading="Bluetooth Printer">
+        <div class="card-content">
+          <paper-progress id="progress" indeterminate></paper-progress>
+        </div>
+      </paper-card>
       <paper-card id="logo">
         <div class="card-content">
           <image id="image" src="logo-black.png" width="200px"></image>
@@ -216,7 +220,13 @@
           }
         }
 
-        
+         function sendImageData() {
+          index = 0;
+          data = getImagePrintData();
+          return new Promise(function(resolve, reject) {
+            sendNextImageDataBatch(resolve, reject);
+          });
+        }
 
         function sendTextData() {
           // Get the bytes for the text
