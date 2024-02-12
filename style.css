@@ -113,7 +113,7 @@ main {
 
 .added-items,
 .summary {
-    width: calc(50% - 10px); /* Set width to 50% minus margins */
+    width: calc(100% - 1px); /* Set width to 50% minus margins */
     margin-bottom: 20px; /* Add margin between the two elements */
 }
 
