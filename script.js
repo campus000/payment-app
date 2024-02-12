@@ -337,9 +337,18 @@ function generateReceiptContent()
 
 
 
+
 {
-  let content = 'jhsdkjasd------';
-  content += '          +++++++++++++++++++++++++++++\n';
+    let content = '';
+
+    // Header with Rectangle around "Campus savories" and spaces added
+    content += '          +++++++++++++++++++++++++++++\n';
+    content += '          +        Campus savories    +\n';
+    content += '          +++++++++++++++++++++++++++++\n';
+    content += '          GST No-29ABEPS2937F1ZF\n';
+    // Bill Information
+    content += 'Bill No.: #12345\n';
+    // content += `Mob. No.: 9726820585\n`;
 
   return content;
 }
