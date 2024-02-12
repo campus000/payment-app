@@ -62,7 +62,25 @@ main {
     padding-right: 0; /* Removed padding-right for mobile and tablets */
     border-right: none; /* Removed border for mobile and tablets */
 }
+.added-items,
+.summary {
+    width: 100%; /* Set width to 50% minus margins */
+    margin-bottom: 20px; /* Add margin between the two elements */
+    border: 3px solid #000; /* Black border */
+    padding: 15px; /* Add padding to create space between content and border */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+.added-item {
+    display: flex; /* Use flexbox */
+ 
+}
 
+ 
+
+
+    .summary {
+        width: 100%; /* Adjusted to full width for tablets */
+    }
 /* Remaining Styles remain unchanged */
 
 /* Media Queries */
