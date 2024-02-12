@@ -1,4 +1,5 @@
-  'use strict';
+
+'use strict';
       document.addEventListener('WebComponentsReady', function() {
         let progress = document.querySelector('#progress');
         let dialog = document.querySelector('#dialog');
@@ -100,13 +101,13 @@
           });
         }
 
-       /* function sendPrinterData() {
+        function sendPrinterData() {
             sendTextData()
             .then(() => {
                 progress.hidden = true;
             })
             .catch(handleError);
-        }*/
+        }
 
         printButton.addEventListener('click', function () {
           progress.hidden = false;
@@ -132,12 +133,48 @@
           } else {
             sendPrinterData();
           }
+        });
+      });// Object to store added items and their quantities
+const addedItems = {};
 
+// Function to read CSV file and create clickable buttons
+/*async function createButtonsFromCSV() {
+    try {
+        const response = await fetch('menu.csv');
+        const csvData = await response.text();
+
+        // Parse CSV data
+        const rows = csvData.split('\n');
+        const headers = rows[0].split(',');
+
+        // Extract item data from CSV
+        const items = rows.slice(1).map(row => {
+            const values = row.split(',');
+            const item = {};
+
+            headers.forEach((header, index) => {
+                const trimmedHeader = header.trim();
+                const trimmedValue = values[index] !== undefined ? values[index].trim() : '';
+
+                if (trimmedValue !== '') {
+                    item[trimmedHeader] = trimmedValue;
+                } else {
+                    console.error(`Value for header '${trimmedHeader}' is missing in row: ${row}`);
+                }
+            });
+
+            return item;
         });
 
-        const addedItems = {};
-        async function createButtonsFromCSV() {
-          try {
+        // Create buttons
+        createButtons(items);
+    } catch (error) {
+        console.error('Error reading CSV file:', error);
+    }
+}
+*/
+async function createButtonsFromCSV() {
+    try {
         const response = await fetch('menu.csv');
         const csvData = await response.text();
 
@@ -317,91 +354,65 @@ function updateSummary() {
     taxSpan.textContent = tax.toFixed(2);
     totalSpan.textContent = total.toFixed(2);
 }
+function saveOrderToDatabase(item, quantity, total) {
+    fetch('server.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            item: item,
+            quantity: quantity,
+            total: total
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Order saved successfully.');
+        } else {
+            console.error('Error saving order.');
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
 
- function sendPrintRequest(receiptContent) {
+
+
+function sendPrintRequest(receiptContent) {
  
-     
+    fetch('server.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            printData: receiptContent,
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Print request sent successfully.');
+        } else {
+            console.error('Error sending print request.');
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
 }
 
 // Function to print the receipt
 function printReceipt() {
-    alert("a");
-    progress.hidden = false;
-          if (printCharacteristic == null) {
-            navigator.bluetooth.requestDevice({
-              filters: [{
-                services: ['000018f0-0000-1000-8000-00805f9b34fb']
-              }]
-            })
-            .then(device => {
-              console.log('> Found ' + device.name);
-              console.log('Connecting to GATT Server...');
-              return device.gatt.connect();
-            })
-            .then(server => server.getPrimaryService("000018f0-0000-1000-8000-00805f9b34fb"))
-            .then(service => service.getCharacteristic("00002af1-0000-1000-8000-00805f9b34fb"))
-            .then(characteristic => {
-              // Cache the characteristic
-              printCharacteristic = characteristic;
-              sendPrinterData();
-            })
-            .catch(handleError);
-          } else {
-            sendPrinterData();
-          }
     const receiptContent = generateReceiptContent();
  
         sendPrintRequest(receiptContent);
      
-
-
 }
 
-
-
-printButton.addEventListener('click', function () {
-    alert("a");
-
-    progress.hidden = false;
-    if (printCharacteristic == null) {
-      navigator.bluetooth.requestDevice({
-        filters: [{
-          services: ['000018f0-0000-1000-8000-00805f9b34fb']
-        }]
-      })
-      .then(device => {
-        console.log('> Found ' + device.name);
-        console.log('Connecting to GATT Server...');
-        return device.gatt.connect();
-      })
-      .then(server => server.getPrimaryService("000018f0-0000-1000-8000-00805f9b34fb"))
-      .then(service => service.getCharacteristic("00002af1-0000-1000-8000-00805f9b34fb"))
-      .then(characteristic => {
-        // Cache the characteristic
-        printCharacteristic = characteristic;
-        sendPrinterData();
-      })
-      .catch(handleError);
-    } else {
-      sendPrinterData();
-    }
-
-  });
-
-  function sendPrinterData() {
-    generateReceiptContent()
-        .then(content => {
-            return sendTextData(content);
-        })
-        .then(() => {
-            progress.hidden = true;
-        })
-        .catch(handleError);
-}
-
-
-  
-/*
 function generateReceiptContent() {
     const currentDate = new Date();
     const formattedDate = currentDate.toDateString();
@@ -431,7 +442,14 @@ function generateReceiptContent() {
     // Loop through added items and display them in the table
     let totalAmount = 0;
 
-   
+   /* for (const item in addedItems) {
+        const itemCost = addedItems[item].price * addedItems[item].quantity;
+
+        // Item Row with adjusted spacing
+ 
+        content += `${item.padEnd(14)}${addedItems[item].quantity.toString().padEnd(14)}${itemCost.toFixed(2)}\n`;
+        totalAmount += itemCost;
+    }*/
     
     // Loop through added items and display them in the table
 for (const item in addedItems) {
@@ -485,10 +503,6 @@ content += `Grand Total:               Rs ${Math.round(roundedGrandTotal).toFixe
     content += '\n';
     content += '\n';
     return content;
-}*/
-
-
-
+}
 // Call the function to create buttons from CSV
 createButtonsFromCSV();
-});
