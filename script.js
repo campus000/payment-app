@@ -339,6 +339,8 @@ function generateReceiptContent()
 
 {
   let content = 'jhsdkjasd';
+  content += '          +++++++++++++++++++++++++++++\n';
+
   return content;
 }
 /*function generateReceiptContent() {
