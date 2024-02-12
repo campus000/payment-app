@@ -91,22 +91,22 @@
 
           
 
-        function sendTextData() {
-          // Get the bytes for the text
-          let encoder = new TextEncoder("utf-8");
-          // Add line feed + carriage return chars to text
-          let text = encoder.encode(message.value + '\u000A\u000D');
-          return printCharacteristic.writeValue(text).then(() => {
-            console.log('Write done.');
-          });
-        }
+       function sendTextData(content) {
+    // Get the bytes for the text
+    let encoder = new TextEncoder("utf-8");
+    // Add line feed + carriage return chars to text
+    let text = encoder.encode(content + '\u000A\u000D');
+    return printCharacteristic.writeValue(text).then(() => {
+        console.log('Write done.');
+    });
+}
 
         function sendPrinterData() {
     // Generate receipt content
     let receiptContent = generateReceiptContent();
 
     // Send receipt content to the printer
-    sendTextData(receiptContent)
+    sendTextData("jkdksjhadkjshdksja")
         .then(() => {
             progress.hidden = true;
         })
