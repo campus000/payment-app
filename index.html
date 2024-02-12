@@ -219,13 +219,7 @@
           }
         }
 
-         function sendImageData() {
-          index = 0;
-          data = getImagePrintData();
-          return new Promise(function(resolve, reject) {
-            sendNextImageDataBatch(resolve, reject);
-          });
-        }
+          
 
         function sendTextData() {
           // Get the bytes for the text
