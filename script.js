@@ -318,19 +318,7 @@ function updateSummary() {
 }
  
 
-function sendPrintRequest(receiptContent) {
  
-    // was sending to server.php for printing earlier
-}
-
-// Function to print the receipt
-function printReceipt() {
-    const receiptContent = generateReceiptContent();
- 
-        sendPrintRequest(receiptContent);
-     
-}
-
 function generateReceiptContent() {
     const currentDate = new Date();
     const formattedDate = currentDate.toDateString();
