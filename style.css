@@ -75,7 +75,7 @@ main {
  
 }
 .added-items {
-    width: 100%; /* Use flexbox */
+    width: inherit; /* Use flexbox */
  
 }
 
