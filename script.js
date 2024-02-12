@@ -139,6 +139,7 @@ function displayAddedItem(item, price, quantity) {
     const quantityButtons = document.createElement('div');
     quantityButtons.className = 'quantity-buttons';
 const minusButton = document.createElement('span');
+    minusButton.style.marginleft='50px';
     minusButton.className = 'quantity-button';
     minusButton.innerHTML = '-';
     minusButton.addEventListener('click', function () {
@@ -161,6 +162,8 @@ const minusButton = document.createElement('span');
     quantityDisplay.textContent = quantity;
 
      const plusButton = document.createElement('span');
+        plusButton.style.marginRight='50px';
+
     plusButton.className = 'quantity-button';
     plusButton.innerHTML = '+';
     plusButton.addEventListener('click', function () {
