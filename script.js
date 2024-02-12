@@ -1,4 +1,5 @@
-  'use strict';
+
+'use strict';
       document.addEventListener('WebComponentsReady', function() {
         let progress = document.querySelector('#progress');
         let dialog = document.querySelector('#dialog');
