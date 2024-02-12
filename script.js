@@ -133,9 +133,46 @@
             sendPrinterData();
           }
         });
+      });// Object to store added items and their quantities
+const addedItems = {};
 
-        const addedItems = {};
- async function createButtonsFromCSV() {
+// Function to read CSV file and create clickable buttons
+/*async function createButtonsFromCSV() {
+    try {
+        const response = await fetch('menu.csv');
+        const csvData = await response.text();
+
+        // Parse CSV data
+        const rows = csvData.split('\n');
+        const headers = rows[0].split(',');
+
+        // Extract item data from CSV
+        const items = rows.slice(1).map(row => {
+            const values = row.split(',');
+            const item = {};
+
+            headers.forEach((header, index) => {
+                const trimmedHeader = header.trim();
+                const trimmedValue = values[index] !== undefined ? values[index].trim() : '';
+
+                if (trimmedValue !== '') {
+                    item[trimmedHeader] = trimmedValue;
+                } else {
+                    console.error(`Value for header '${trimmedHeader}' is missing in row: ${row}`);
+                }
+            });
+
+            return item;
+        });
+
+        // Create buttons
+        createButtons(items);
+    } catch (error) {
+        console.error('Error reading CSV file:', error);
+    }
+}
+*/
+async function createButtonsFromCSV() {
     try {
         const response = await fetch('menu.csv');
         const csvData = await response.text();
@@ -316,8 +353,34 @@ function updateSummary() {
     taxSpan.textContent = tax.toFixed(2);
     totalSpan.textContent = total.toFixed(2);
 }
+function saveOrderToDatabase(item, quantity, total) {
+    fetch('server.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            item: item,
+            quantity: quantity,
+            total: total
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Order saved successfully.');
+        } else {
+            console.error('Error saving order.');
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
 
- function sendPrintRequest(receiptContent) {
+
+
+function sendPrintRequest(receiptContent) {
  
     fetch('server.php', {
         method: 'POST',
@@ -442,4 +505,3 @@ content += `Grand Total:               Rs ${Math.round(roundedGrandTotal).toFixe
 }
 // Call the function to create buttons from CSV
 createButtonsFromCSV();
-});
