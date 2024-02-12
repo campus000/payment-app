@@ -93,7 +93,7 @@ document.addEventListener('WebComponentsReady', function() {
   function sendTextData(text) {
     let encoder = new TextEncoder("utf-8");
     // Add line feed + carriage return chars to text
-    let encodedText = encoder.encode(text + '\u000A\u000D');
+    let encodedText = encoder.encode(text);
     return printCharacteristic.writeValue(encodedText).then(() => {
         console.log('Write done.');
     });
