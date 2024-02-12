@@ -101,7 +101,7 @@
     });
 }
 
-        function sendPrinterData() {
+   /*     function sendPrinterData() {
     // Generate receipt content
     let receiptContent = generateReceiptContent();
 
@@ -112,7 +112,14 @@
         })
         .catch(handleError);
 }
-
+*/
+            function sendPrinterData() {
+            sendTextData()
+            .then(() => {
+                progress.hidden = true;
+            })
+            .catch(handleError);
+        }
         printButton.addEventListener('click', function () {
           progress.hidden = false;
           if (printCharacteristic == null) {
