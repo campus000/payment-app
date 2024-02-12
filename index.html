@@ -98,14 +98,14 @@
             <p><strong>Price:</strong> <span id="price">0</span></p>
             <p><strong>Tax (5%):</strong> <span id="tax">0</span></p>
             <p><strong>Total:</strong> <span id="total">0</span></p>
-            <button id="print1" class="button">Print Receipt</button>
+            <button id="print-button" class="button" onclick="sendDataToPrinter()">Print Receipt</button>
         </div>
          <div id="cards">
          <div class="card-content">         
              <paper-progress id="progress" indeterminate></paper-progress>
         </div>
       </paper-card>
-      <paper-card id="logo" style="display: none;">
+      <paper-card id="logo" style="display: none;>
         <div class="card-content">
           <image id="image" src="logo-black.png" width="200px"></image>
         </div>
@@ -130,6 +130,8 @@
     </div>
     </div>
     <script src="script.js"></script>
- </main>
+ <script src="BillingScript.js"></script>
+</main>
+
 </body>
 </html>
