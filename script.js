@@ -88,28 +88,9 @@
           }
         }
 
+          
 
-
-        function sendTextData(text) {
-    let encoder = new TextEncoder("utf-8");
-    // Add line feed + carriage return chars to text
-    let encodedText = encoder.encode(text + '\u000A\u000D');
-    return printCharacteristic.writeValue(encodedText).then(() => {
-        console.log('Write done.');
-    });
-}
-
-// Use this function to initiate the printing process
-function printReceipt() {
-    const receiptContent = generateReceiptContent(); // Generate the receipt content
-    sendTextData(receiptContent) // Send the generated content for printing
-        .then(() => {
-            progress.hidden = true; // Hide progress indicator or handle success
-        })
-        .catch(handleError); // Handle errors if any
-}
-
- /*       function sendTextData() {
+        function sendTextData() {
           // Get the bytes for the text
           let encoder = new TextEncoder("utf-8");
           // Add line feed + carriage return chars to text
@@ -118,7 +99,7 @@ function printReceipt() {
             console.log('Write done.');
           });
         }
-*/
+
         function sendPrinterData() {
             sendTextData()
             .then(() => {
@@ -145,10 +126,12 @@ function printReceipt() {
             .then(characteristic => {
               // Cache the characteristic
               printCharacteristic = characteristic;
-            printReceipt(); // Instead of sendPrinterData(), call printReceipt()            })
+              sendPrinterData();
+            })
             .catch(handleError);
           } else {
-            printReceipt(); // Instead of sendPrinterData(), call printReceipt()          }
+            sendPrinterData();
+          }
         });
       });// Object to store added items and their quantities
 const addedItems = {};
