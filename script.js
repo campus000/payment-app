@@ -102,6 +102,8 @@ document.addEventListener('WebComponentsReady', function() {
 // Use this function to initiate the printing process
 function printReceipt() {
     const receiptContent = generateReceiptContent(); // Generate the receipt content
+  alert(receiptContent);
+  alert("here");
     sendTextData(receiptContent) // Send the generated content for printing
         .then(() => {
             progress.hidden = true; // Hide progress indicator or handle success
