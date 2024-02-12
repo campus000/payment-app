@@ -321,49 +321,23 @@ function updateSummary() {
 
 
 
-/*function sendPrintRequest(receiptContent) {
  
-    fetch('server.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            printData: receiptContent,
-        }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            console.log('Print request sent successfully.');
-        } else {
-            console.error('Error sending print request.');
-        }
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-}
-*/
-async function sendPrintRequest(receiptContent) {
+async function sendDataToPrinter() {
     try {
-        // Send the print data to the Bluetooth printer
-        await sendPrintDataOverBluetooth(receiptContent);
-        console.log('Print request sent successfully.');
-    } catch (error) {
-        console.error('Error sending print request:', error);
-    }
-}
-async function sendPrintDataOverBluetooth(receiptContent) {
-    try {
-        // Establish Bluetooth connection and get characteristic
+        // Generate receipt content
+        const receiptContent = generateReceiptContent();
+
+        // Request Bluetooth device
         const device = await navigator.bluetooth.requestDevice({
             filters: [{ services: ['000018f0-0000-1000-8000-00805f9b34fb'] }]
         });
         console.log('> Found ' + device.name);
-        console.log('Connecting to GATT Server...');
+
+        // Connect to GATT server
         const server = await device.gatt.connect();
         const service = await server.getPrimaryService("000018f0-0000-1000-8000-00805f9b34fb");
+
+        // Get characteristic for writing
         const characteristic = await service.getCharacteristic("00002af1-0000-1000-8000-00805f9b34fb");
 
         // Convert receipt content to bytes
@@ -373,11 +347,9 @@ async function sendPrintDataOverBluetooth(receiptContent) {
         // Write print data to the characteristic
         await characteristic.writeValue(printData);
 
-        // Close the server connection
-        await server.disconnect();
+        console.log('Print request sent successfully.');
     } catch (error) {
-        console.error('Error sending print data over Bluetooth:', error);
-        throw error; // Propagate the error
+        console.error('Error sending print request:', error);
     }
 }
 
