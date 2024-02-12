@@ -1,4 +1,4 @@
-      'use strict';
+  'use strict';
       document.addEventListener('WebComponentsReady', function() {
         let progress = document.querySelector('#progress');
         let dialog = document.querySelector('#dialog');
@@ -133,9 +133,45 @@
             sendPrinterData();
           }
         });
-      });
-    
+      });// Object to store added items and their quantities
+const addedItems = {};
 
+// Function to read CSV file and create clickable buttons
+/*async function createButtonsFromCSV() {
+    try {
+        const response = await fetch('menu.csv');
+        const csvData = await response.text();
+
+        // Parse CSV data
+        const rows = csvData.split('\n');
+        const headers = rows[0].split(',');
+
+        // Extract item data from CSV
+        const items = rows.slice(1).map(row => {
+            const values = row.split(',');
+            const item = {};
+
+            headers.forEach((header, index) => {
+                const trimmedHeader = header.trim();
+                const trimmedValue = values[index] !== undefined ? values[index].trim() : '';
+
+                if (trimmedValue !== '') {
+                    item[trimmedHeader] = trimmedValue;
+                } else {
+                    console.error(`Value for header '${trimmedHeader}' is missing in row: ${row}`);
+                }
+            });
+
+            return item;
+        });
+
+        // Create buttons
+        createButtons(items);
+    } catch (error) {
+        console.error('Error reading CSV file:', error);
+    }
+}
+*/
 async function createButtonsFromCSV() {
     try {
         const response = await fetch('menu.csv');
@@ -317,50 +353,65 @@ function updateSummary() {
     taxSpan.textContent = tax.toFixed(2);
     totalSpan.textContent = total.toFixed(2);
 }
+function saveOrderToDatabase(item, quantity, total) {
+    fetch('server.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            item: item,
+            quantity: quantity,
+            total: total
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Order saved successfully.');
+        } else {
+            console.error('Error saving order.');
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+
+
+function sendPrintRequest(receiptContent) {
  
-
-
-
- 
-async function sendDataToPrinter() {
-    try {
-        // Generate receipt content
-        const receiptContent = generateReceiptContent();
-
-        // Request Bluetooth device
-        const device = await navigator.bluetooth.requestDevice({
-            filters: [{ services: ['000018f0-0000-1000-8000-00805f9b34fb'] }]
-        });
-        console.log('> Found ' + device.name);
-
-        // Connect to GATT server
-        const server = await device.gatt.connect();
-        const service = await server.getPrimaryService("000018f0-0000-1000-8000-00805f9b34fb");
-
-        // Get characteristic for writing
-        const characteristic = await service.getCharacteristic("00002af1-0000-1000-8000-00805f9b34fb");
-
-        // Convert receipt content to bytes
-        const encoder = new TextEncoder();
-        const printData = encoder.encode(receiptContent);
-
-        // Write print data to the characteristic
-        await characteristic.writeValue(printData);
-
-        console.log('Print request sent successfully.');
-    } catch (error) {
-        console.error('Error sending print request:', error);
-    }
+    fetch('server.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            printData: receiptContent,
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Print request sent successfully.');
+        } else {
+            console.error('Error sending print request.');
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
 }
 
 // Function to print the receipt
 function printReceipt() {
     const receiptContent = generateReceiptContent();
-    sendPrintRequest(receiptContent);
+ 
+        sendPrintRequest(receiptContent);
+     
 }
 
-
- 
 function generateReceiptContent() {
     const currentDate = new Date();
     const formattedDate = currentDate.toDateString();
