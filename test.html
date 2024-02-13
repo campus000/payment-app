@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Print to Bluetooth Thermal Printer</title>
+</head>
+<body>
+    <button id="printButton">Print Sample Text</button>
+
+    <script>
+        document.getElementById('printButton').addEventListener('click', function() {
+            if (!navigator.bluetooth) {
+                alert('Web Bluetooth is not available. Please use a compatible browser.');
+                return;
+            }
+
+            navigator.bluetooth.requestDevice({
+                // Filters for devices that provide a specific service.
+                // Replace 'printer_service_uuid' with the UUID of your printer's service.
+                filters: [{
+                    services: ['printer_service_uuid']
+                }]
+            })
+            .then(device => {
+                console.log('Connecting to the device...');
+                return device.gatt.connect();
+            })
+            .then(server => {
+                // Replace 'service_uuid' and 'characteristic_uuid' with your printer's values.
+                console.log('Getting service...');
+                return server.getPrimaryService('service_uuid');
+            })
+            .then(service => {
+                console.log('Getting characteristic...');
+                return service.getCharacteristic('characteristic_uuid');
+            })
+            .then(characteristic => {
+                // Sample text to print. You might need to encode this in the format your printer requires.
+                const encoder = new TextEncoder();
+                const text = encoder.encode('Hello, thermal printer!\n');
+                console.log('Sending text to the printer...');
+                return characteristic.writeValue(text);
+            })
+            .then(() => {
+                console.log('Text sent to the printer successfully!');
+            })
+            .catch(error => {
+                console.error('Failed to print text:', error);
+            });
+        });
+    </script>
+</body>
+</html>
