@@ -385,7 +385,7 @@ const itemName = item.toString(); // Use the item itself as the name
 const itemCost = addedItems[item].price * addedItems[item].quantity;
 
 // Item Row with adjusted spacing and line break for long item names
-const itemRow = `${itemName.slice(0, 10)}${addedItems[item].quantity.toString()}${itemCost.toFixed(2)}\n`;
+const itemRow = `${itemName}${addedItems[item].quantity.toString()}${itemCost.toFixed(2)}\n`;
 content += itemRow;
 
 // If the item name is too long, add the remaining part on the next line
