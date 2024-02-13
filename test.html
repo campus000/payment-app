@@ -17,7 +17,7 @@
                 // Filters for devices that provide a specific service.
                 // Replace 'printer_service_uuid' with the UUID of your printer's service.
                 filters: [{
-                    services: ['printer_service_uuid']
+                    services: ['000018f0-0000-1000-8000-00805f9b34fb']
                 }]
             })
             .then(device => {
@@ -27,11 +27,11 @@
             .then(server => {
                 // Replace 'service_uuid' and 'characteristic_uuid' with your printer's values.
                 console.log('Getting service...');
-                return server.getPrimaryService('service_uuid');
+                return server.getPrimaryService('000018f0-0000-1000-8000-00805f9b34fb');
             })
             .then(service => {
                 console.log('Getting characteristic...');
-                return service.getCharacteristic('characteristic_uuid');
+                return service.getCharacteristic('000018f0-0000-1000-8000-00805f9b34fb');
             })
             .then(characteristic => {
                 // Sample text to print. You might need to encode this in the format your printer requires.
