@@ -164,8 +164,8 @@ async function printReceipt() {
     const receiptContent = generateReceiptContent(); // Generate the receipt content
 
     // Check if the receipt content size is greater than 512 bytes
-    if (receiptContent.length >= 512) {
-        const batchSize = 512; // Define the batch size
+    if (receiptContent.length >= 511) {
+        const batchSize = 511; // Define the batch size
         const numBatches = Math.ceil(receiptContent.length / batchSize); // Calculate the number of batches
 
         for (let i = 0; i < numBatches; i++) {
