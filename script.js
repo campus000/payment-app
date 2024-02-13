@@ -111,6 +111,29 @@ document.addEventListener('WebComponentsReady', function () {
 }
  */
 
+async function printReceipt() {
+    const receiptContent = generateReceiptContent(); // Generate the receipt content
+    const batchSize = 512; // Define the batch size
+
+    if (receiptContent.length > batchSize) {
+        let start = 0;
+        let end = batchSize;
+        while (start < receiptContent.length) {
+            const chunk = receiptContent.substring(start, end);
+            await sendTextData(chunk);
+            start = end;
+            end = start + batchSize;
+        }
+    } else {
+        await sendTextData(receiptContent);
+    }
+
+    progress.hidden = true;
+}
+
+
+  
+/*
 function printReceipt() {
     const receiptContent = generateReceiptContent(); // Generate the receipt content
 
@@ -157,7 +180,8 @@ function printReceipt() {
             })
             .catch(handleError);
     }
-}
+}*/
+  
 
 
      function sendPrinterData() {
