@@ -36,11 +36,11 @@ document.addEventListener('WebComponentsReady', function() {
     dialog.open();
   }
  
-function sendTextData() {
+function sendTextData(text) {
           // Get the bytes for the text
           let encoder = new TextEncoder("utf-8");
           // Add line feed + carriage return chars to text
-          let text = encoder.encode(message.value + '\u000A\u000D');
+          let text = encoder.encode(text.value + '\u000A\u000D');
           return printCharacteristic.writeValue(text).then(() => {
             console.log('Write done.');
           });
@@ -64,7 +64,7 @@ function sendTextData() {
         console.log('Write done.');
     });
 }
-
+*/
 // Use this function to initiate the printing process
 function printReceipt() {
     const receiptContent = generateReceiptContent(); // Generate the receipt content
@@ -74,7 +74,7 @@ function printReceipt() {
         })
         .catch(handleError); // Handle errors if any
 }
-*/
+
   function sendPrinterData() {
       sendTextData()
       .then(() => {
@@ -101,8 +101,8 @@ function printReceipt() {
       .then(characteristic => {
         // Cache the characteristic
         printCharacteristic = characteristic;
-       // printReceipt();
-sendPrinterData();
+        printReceipt();
+//sendPrinterData();
 
       })
       .catch(handleError);
