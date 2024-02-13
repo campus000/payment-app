@@ -275,7 +275,7 @@ function addItem(item, price) {
   updateAddedItemDisplay();
   updateSummary();
 }
-
+/*
 // Function to display added item in the "Added Items" partition
 function displayAddedItem(item, price, quantity) {
   const addedItemsContainer = document.getElementById('added-items');
@@ -357,7 +357,83 @@ function updateAddedItemDisplay() {
   for (const item in addedItems) {
     displayAddedItem(item, addedItems[item].price, addedItems[item].quantity);
   }
+}*/
+function displayAddedItem(item, price, quantity) {
+  const addedItemsContainer = document.getElementById('added-items');
+  const newItemContainer = document.createElement('div');
+  newItemContainer.className = 'added-item';
+
+  const itemInfoContainer = document.createElement('div');
+  itemInfoContainer.className = 'item-info';
+
+  const itemName = document.createElement('span');
+  itemName.className = 'item-name';
+  itemName.textContent = item;
+
+  const itemPrice = document.createElement('span');
+  itemPrice.className = 'item-price';
+  itemPrice.textContent = `Rs${price * quantity}`;
+
+  const quantityButtons = document.createElement('div');
+  quantityButtons.className = 'quantity-buttons';
+
+  const minusButton = document.createElement('span');
+  minusButton.className = 'quantity-button';
+  minusButton.innerHTML = '-';
+  minusButton.addEventListener('click', function () {
+    if (addedItems[item].quantity > 1) {
+      addedItems[item].quantity -= 1;
+      updateAddedItemDisplay();
+      updateSummary();
+    } else {
+      delete addedItems[item];
+      updateAddedItemDisplay();
+      updateSummary();
+    }
+  });
+
+  const quantityDisplay = document.createElement('span');
+  quantityDisplay.className = 'quantity';
+  quantityDisplay.textContent = quantity;
+
+  const plusButton = document.createElement('span');
+  plusButton.className = 'quantity-button';
+  plusButton.innerHTML = '+';
+  plusButton.style.marginRight = '10px'; // Adjust the value as needed
+  plusButton.addEventListener('click', function () {
+    addedItems[item].quantity += 1;
+    updateAddedItemDisplay();
+    updateSummary();
+  });
+
+  itemInfoContainer.appendChild(itemName);
+  itemInfoContainer.appendChild(document.createTextNode(' '));
+  itemInfoContainer.appendChild(itemPrice);
+
+  quantityButtons.appendChild(plusButton);
+  quantityButtons.appendChild(quantityDisplay);
+  quantityButtons.appendChild(minusButton);
+
+  newItemContainer.appendChild(itemInfoContainer);
+  newItemContainer.appendChild(quantityButtons);
+
+  // Add an empty line after each record
+  newItemContainer.appendChild(document.createElement('br'));
+
+  addedItemsContainer.appendChild(newItemContainer);
 }
+
+// Function to update the display of added item quantity
+function updateAddedItemDisplay() {
+  const addedItemsContainer = document.getElementById('added-items');
+  addedItemsContainer.innerHTML = '<h2>Added Items:</h2>';
+
+  // Iterate through added items and display them
+  for (const item in addedItems) {
+    displayAddedItem(item, addedItems[item].price, addedItems[item].quantity);
+  }
+}
+
 
 // Function to update the summary
 function updateSummary() {
