@@ -87,27 +87,7 @@ document.addEventListener('WebComponentsReady', function () {
       }
     }
   }
-  /*
-  function sendTextData() {
-    // Get the bytes for the text
-    let encoder = new TextEncoder("utf-8");
-    // Add line feed + carriage return chars to text
-    let text = encoder.encode(message.value + '\u000A\u000D');
-    return printCharacteristic.writeValue(text).then(() => {
-      console.log('Write done.');
-    });
-  }
-
-  function sendPrinterData() {
-         const receiptContent = generateReceiptContent(); // Generate the receipt content
-    alert(receiptContent);
-    sendTextData()
-      .then(() => {
-        progress.hidden = true;
-      })
-      .catch(handleError);
-  }*/
-
+   
 
   
     function sendTextData(text) {
@@ -131,8 +111,7 @@ document.addEventListener('WebComponentsReady', function () {
 }
  */
 
-// Use this function to initiate the printing process
-function printReceipt() {
+ function printReceipt() {
     const receiptContent = generateReceiptContent(); // Generate the receipt content
 
     // Check if the receipt content size is greater than or equal to 512 bytes
@@ -152,7 +131,13 @@ function printReceipt() {
             }
             i++;
         }
-alert(firstPart.length);
+
+        // Alert the length of the first part
+        alert("Length of first part: " + firstPart.length);
+
+        // Alert the length of the second part
+        alert("Length of second part: " + secondPart.length);
+
         // Print the first part
         sendTextData(firstPart)
             .then(() => {
