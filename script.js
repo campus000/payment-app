@@ -152,7 +152,7 @@ function printReceipt() {
             }
             i++;
         }
-alert(firstPart.value);
+alert(firstPart.length);
         // Print the first part
         sendTextData(firstPart)
             .then(() => {
