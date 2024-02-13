@@ -352,7 +352,7 @@ function updateSummary() {
   totalSpan.textContent = total.toFixed(2);
 }
 
-/*
+
 function generateReceiptContent() {
   let content = '';
 
@@ -363,7 +363,8 @@ content += 'GST No-29ABEPS2937F1ZF\n';
 
 
   return content;
-}*/
+}
+/*
 function generateReceiptContent() {
 const currentDate = new Date();
 const formattedDate = currentDate.toDateString();
@@ -446,7 +447,7 @@ content += '\n';
 content += '\n';
 content += '\n';
 return content;
-}
+}*/
 
 
 // Call the function to create buttons from CSV
