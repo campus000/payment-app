@@ -111,29 +111,6 @@ document.addEventListener('WebComponentsReady', function () {
 }
  */
 
-async function printReceipt() {
-    const receiptContent = generateReceiptContent(); // Generate the receipt content
-    const batchSize = 512; // Define the batch size
-
-    if (receiptContent.length > batchSize) {
-        let start = 0;
-        let end = batchSize;
-        while (start < receiptContent.length) {
-            const chunk = receiptContent.substring(start, end);
-            await sendTextData(chunk);
-            start = end;
-            end = start + batchSize;
-        }
-    } else {
-        await sendTextData(receiptContent);
-    }
-
-    progress.hidden = true;
-}
-
-
-  
-/*
 function printReceipt() {
     const receiptContent = generateReceiptContent(); // Generate the receipt content
 
@@ -146,7 +123,7 @@ function printReceipt() {
         // Find the splitting point for the receipt content
         while (i < receiptContent.length) {
             // If adding the current character to the first part keeps it below 256 bytes, add it
-            if ((firstPart.length + secondPart.length) < 512 && firstPart.length < 270) {
+            if ((firstPart.length + secondPart.length) < 512 && firstPart.length < 280) {
                 firstPart += receiptContent[i];
             } else {
                 // Otherwise, add it to the second part
@@ -180,8 +157,7 @@ function printReceipt() {
             })
             .catch(handleError);
     }
-}*/
-  
+}
 
 
      function sendPrinterData() {
