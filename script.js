@@ -120,9 +120,10 @@ document.addEventListener('WebComponentsReady', function () {
         let secondPart = '';
 
         // Iterate over receipt content to find the splitting point
-        // Iterate over receipt content to find the splitting point
+ 
+      // Iterate over receipt content to find the splitting point
 let i = 0;
-while (i < receiptContent.length && (firstPart.length < 256 && (firstPart.length + secondPart.length) < receiptContent.length)) {
+while (i < receiptContent.length && (firstPart.length < 256 || (firstPart.length + secondPart.length) < receiptContent.length)) {
     // If adding the current character to the first part keeps it below 256 bytes, add it
     if ((firstPart.length + secondPart.length) < 512) {
         firstPart += receiptContent[i];
@@ -133,6 +134,7 @@ while (i < receiptContent.length && (firstPart.length < 256 && (firstPart.length
     i++;
 }
 
+
         // Alert the length of the first part
         alert("Length of first part: " + firstPart.length);
 
@@ -142,9 +144,8 @@ while (i < receiptContent.length && (firstPart.length < 256 && (firstPart.length
         // Print the first part
         sendTextData(firstPart)
             .then(() => {
-                // After printing the first part, print the second part
-                sendTextData(secondPart)
-                    .then(() => {
+              alert("printing second part");
+                 sendTextData(secondPart)                    .then(() => {
                         progress.hidden = true;
                     })
                     .catch(handleError);
