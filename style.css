@@ -138,6 +138,34 @@ main {
     flex-wrap: wrap; /* Allow wrapping if necessary */
 }
 
+
+    .quantity-button {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  margin: 0 5px; /* Adjust the spacing as needed */
+}
+
+.quantity-button:hover {
+  background-color: #e0e0e0;
+}
+
+.quantity-button.plus {
+  background-color: #66bb6a;
+  color: white;
+}
+
+.quantity-button.minus {
+  background-color: #ef5350;
+  color: white;
+}
+
+
 .added-items,
 .summary {
     width: calc(100% - 1px); /* Set width to 50% minus margins */
