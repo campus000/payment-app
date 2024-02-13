@@ -111,7 +111,7 @@ document.addEventListener('WebComponentsReady', function () {
 }
  */
 
-function printReceipt() {
+/*function printReceipt() {
     const receiptContent = generateReceiptContent(); // Generate the receipt content
 
     // Check if the receipt content size is greater than or equal to 512 bytes
@@ -157,7 +157,47 @@ function printReceipt() {
             })
             .catch(handleError);
     }
+}*/
+
+
+async function printReceipt() {
+    const receiptContent = generateReceiptContent(); // Generate the receipt content
+
+    // Check if the receipt content size is greater than 512 bytes
+    if (receiptContent.length >= 512) {
+        const batchSize = 512; // Define the batch size
+        const numBatches = Math.ceil(receiptContent.length / batchSize); // Calculate the number of batches
+
+        for (let i = 0; i < numBatches; i++) {
+            const startIndex = i * batchSize;
+            const batchContent = receiptContent.substring(startIndex, startIndex + batchSize);
+
+            // Print the batch
+            try {
+                await sendTextData(batchContent);
+            } catch (error) {
+                // Handle error
+                handleError(error);
+                return;
+            }
+        }
+
+        // All batches printed successfully
+        progress.hidden = true;
+    } else {
+        // If the content size is within 512 bytes, print it directly
+        try {
+            await sendTextData(receiptContent);
+            progress.hidden = true;
+        } catch (error) {
+            // Handle error
+            handleError(error);
+        }
+    }
 }
+
+
+  
   function sendPrinterData() {
     sendTextData()
       .then(() => {
