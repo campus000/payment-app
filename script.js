@@ -419,10 +419,10 @@ content += itemRow;
 content += itemRow;
 
 // If the item name is too long, add the remaining part on the next line
-/*if (itemName.length > 10) {
+if (itemName.length > 10) {
   content += `${itemName.slice(10)}\n`;
 }
-*/
+
 totalAmount += itemCost;
 }
 
