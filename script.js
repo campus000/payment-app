@@ -120,7 +120,7 @@ document.addEventListener('WebComponentsReady', function () {
   }
   
   // Use this function to initiate the printing process
-  function printReceipt() {
+/*  function printReceipt() {
       const receiptContent = generateReceiptContent(); // Generate the receipt content
     alert(receiptContent);
     sendTextData(receiptContent)
@@ -129,7 +129,38 @@ document.addEventListener('WebComponentsReady', function () {
     })
     .catch(handleError);
 }
- 
+ */
+
+  // Use this function to initiate the printing process
+function printReceipt() {
+    const receiptContent = generateReceiptContent(); // Generate the receipt content
+
+    // Check if the receipt content size exceeds 512 bytes
+    if (receiptContent.length > 512) {
+        const firstPart = receiptContent.substring(0, 512);
+        const secondPart = receiptContent.substring(512);
+
+        // Print the first part
+        sendTextData(firstPart)
+            .then(() => {
+                // After printing the first part, print the second part
+                sendTextData(secondPart)
+                    .then(() => {
+                        progress.hidden = true;
+                    })
+                    .catch(handleError);
+            })
+            .catch(handleError);
+    } else {
+        // If the content size is within 512 bytes, print it directly
+        sendTextData(receiptContent)
+            .then(() => {
+                progress.hidden = true;
+            })
+            .catch(handleError);
+    }
+}
+
   function sendPrinterData() {
     sendTextData()
       .then(() => {
