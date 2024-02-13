@@ -107,7 +107,7 @@ function printReceipt() {
       })
       .catch(handleError);
     } else {
-sendPrinterData();
+        printReceipt();
     }
   });
 });// Object to store added items and their quantities
