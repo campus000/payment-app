@@ -404,6 +404,8 @@ content += `Round Up:             Rs  ${roundOff.toFixed(2)}\n`;
 // Add the rounded grand total
 content += `Grand Total:          Rs ${Math.round(roundedGrandTotal).toFixed(2)}\n`;
 content += '------------------------------------------------\n';
+  content += '           Thank You Visit Again\n';
+
 
   return content;
 }
