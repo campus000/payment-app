@@ -357,7 +357,7 @@ function generateReceiptContent() {
   let content = '';
 
   // Header with Rectangle around "Campus savories" and spaces added
-  content += '          Campus savories\n';
+  content += ' Campus savories\n';
 content += 'GST No-29ABEPS2937F1ZF\n';
 content += 'Bill No.: #12345\n';
 content += '          +     INVOICE +\n';
@@ -372,7 +372,7 @@ const itemName = item.toString(); // Use the item itself as the name
 const itemCost = addedItems[item].price * addedItems[item].quantity;
 
 // Item Row with adjusted spacing and line break for long item names
-const itemRow = `${itemName.slice(0, 10).padEnd(10)}${addedItems[item].quantity.toString().padEnd(10)}${itemCost.toFixed(2)}\n`;
+const itemRow = `${itemName.slice(0, 10).padEnd(14)}${addedItems[item].quantity.toString().padEnd(14)}${itemCost.toFixed(2)}\n`;
 content += itemRow;
 
 // If the item name is too long, add the remaining part on the next line
@@ -404,8 +404,7 @@ content += `Round Up:             Rs  ${roundOff.toFixed(2)}\n`;
 // Add the rounded grand total
 content += `Grand Total:          Rs ${Math.round(roundedGrandTotal).toFixed(2)}\n`;
 content += '------------------------------------------------\n';
-content += '           Thank You! Visit Again\n';
-content += '------------------------------------------------\n';
+
   return content;
 }
 /*
