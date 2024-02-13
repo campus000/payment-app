@@ -383,9 +383,15 @@ if (itemName.length > 10) {
 totalAmount += itemCost;
 }
 
-content += '------------------------------------------------\n';
-content += `Total Amount:              Rs ${totalAmount.toFixed(2)}\n`;
+content += '-------------------------------\n';
+content += `Total Amount:      Rs ${totalAmount.toFixed(2)}\n`;
+// Calculate 5% tax (GST) on the total amount
+const tax = totalAmount * 0.05;
 
+// Calculate the grand total by adding the tax to the total amount
+const grandTotal = totalAmount + tax;
+
+content += `GST (5%):                  Rs  ${tax.toFixed(2)}\n`;
   return content;
 }
 /*
