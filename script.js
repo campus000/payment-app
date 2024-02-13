@@ -392,6 +392,17 @@ const tax = totalAmount * 0.05;
 const grandTotal = totalAmount + tax;
 
 content += `GST (5%):                  Rs  ${tax.toFixed(2)}\n`;
+const roundedGrandTotal = grandTotal % 1 === 0 ? grandTotal : Math.ceil(grandTotal);
+
+// Calculate the round-off amount (always positive)
+const roundOff = roundedGrandTotal - grandTotal;
+// Calculate the round off amount
+
+
+content += `Round Up:                  Rs  ${roundOff.toFixed(2)}\n`;
+
+// Add the rounded grand total
+content += `Grand Total:               Rs ${Math.round(roundedGrandTotal).toFixed(2)}\n`;
   return content;
 }
 /*
