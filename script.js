@@ -156,13 +156,13 @@ document.addEventListener('WebComponentsReady', function () {
         .then(characteristic => {
           // Cache the characteristic
           printCharacteristic = characteristic;
-          // printReceipt();
-          sendPrinterData();
+           printReceipt();
+         // sendPrinterData();
 
         })
         .catch(handleError);
     } else {
-      sendPrinterData();
+           printReceipt();
     }
   });
 });// Object to store added items and their quantities
