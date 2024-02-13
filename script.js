@@ -354,12 +354,18 @@ function updateSummary() {
 
 
 function generateReceiptContent() {
+  const currentDate = new Date();
+const formattedDate = currentDate.toDateString();
+const formattedTime = currentDate.toLocaleTimeString();
+
   let content = '';
 
   // Header with Rectangle around "Campus savories" and spaces added
   content += ' Campus savories\n';
 content += 'GST No-29ABEPS2937F1ZF\n';
 content += 'Bill No.: #12345\n';
+content += `Bill Dt.: ${formattedDate} ${formattedTime}\n`;
+
 content += '          +     INVOICE +\n';
 content += 'Item        Quantity     Amount\n';
 
@@ -404,8 +410,6 @@ content += `Round Up:             Rs  ${roundOff.toFixed(2)}\n`;
 // Add the rounded grand total
 content += `Grand Total:          Rs ${Math.round(roundedGrandTotal).toFixed(2)}\n`;
 content += '------------------------------------------------\n';
-  content += '           Thank You Visit Again\n';
-
 
   return content;
 }
