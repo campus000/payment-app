@@ -1,5 +1,5 @@
 'use strict';
-document.addEventListener('WebComponentsReady', function() {
+document.addEventListener('WebComponentsReady', function () {
   let progress = document.querySelector('#progress');
   let dialog = document.querySelector('#dialog');
   let message = document.querySelector('#message');
@@ -27,7 +27,37 @@ document.addEventListener('WebComponentsReady', function() {
     return (red + green + blue) > 0 ? 1 : 0;
   }
 
-
+  function getImagePrintData() {
+    if (imageData == null) {
+      console.log('No image to print!');
+      return new Uint8Array([]);
+    }
+    // Each 8 pixels in a row is represented by a byte
+    let printData = new Uint8Array(canvas.width / 8 * canvas.height + 8);
+    let offset = 0;
+    // Set the header bytes for printing the image
+    printData[0] = 29;  // Print raster bitmap
+    printData[1] = 118; // Print raster bitmap
+    printData[2] = 48; // Print raster bitmap
+    printData[3] = 0;  // Normal 203.2 DPI
+    printData[4] = canvas.width / 8; // Number of horizontal data bits (LSB)
+    printData[5] = 0; // Number of horizontal data bits (MSB)
+    printData[6] = canvas.height % 256; // Number of vertical data bits (LSB)
+    printData[7] = canvas.height / 256;  // Number of vertical data bits (MSB)
+    offset = 7;
+    // Loop through image rows in bytes
+    for (let i = 0; i < canvas.height; ++i) {
+      for (let k = 0; k < canvas.width / 8; ++k) {
+        let k8 = k * 8;
+        //  Pixel to bit position mapping
+        printData[++offset] = getDarkPixel(k8 + 0, i) * 128 + getDarkPixel(k8 + 1, i) * 64 +
+          getDarkPixel(k8 + 2, i) * 32 + getDarkPixel(k8 + 3, i) * 16 +
+          getDarkPixel(k8 + 4, i) * 8 + getDarkPixel(k8 + 5, i) * 4 +
+          getDarkPixel(k8 + 6, i) * 2 + getDarkPixel(k8 + 7, i);
+      }
+    }
+    return printData;
+  }
 
   function handleError(error) {
     console.log(error);
@@ -35,50 +65,75 @@ document.addEventListener('WebComponentsReady', function() {
     printCharacteristic = null;
     dialog.open();
   }
- 
-function sendTextData(text) {
-          // Get the bytes for the text
-          let encoder = new TextEncoder("utf-8");
-          // Add line feed + carriage return chars to text
-          let text = encoder.encode(text.value + '\u000A\u000D');
-          return printCharacteristic.writeValue(text).then(() => {
-            console.log('Write done.');
-          });
-        }
 
-        function sendPrinterData() {
-            sendTextData()
-            .then(() => {
-                progress.hidden = true;
-            })
-            .catch(handleError);
-        }
-
-    
-/*
-  function sendTextData(text) {
+  function sendNextImageDataBatch(resolve, reject) {
+    // Can only write 512 bytes at a time to the characteristic
+    // Need to send the image data in 512 byte batches
+    if (index + 512 < data.length) {
+      printCharacteristic.writeValue(data.slice(index, index + 512)).then(() => {
+        index += 512;
+        sendNextImageDataBatch(resolve, reject);
+      })
+        .catch(error => reject(error));
+    } else {
+      // Send the last bytes
+      if (index < data.length) {
+        printCharacteristic.writeValue(data.slice(index, data.length)).then(() => {
+          resolve();
+        })
+          .catch(error => reject(error));
+      } else {
+        resolve();
+      }
+    }
+  }
+  /*
+  function sendTextData() {
+    // Get the bytes for the text
     let encoder = new TextEncoder("utf-8");
     // Add line feed + carriage return chars to text
-    let encodedText = encoder.encode(text+ '\u000A\u000D');
-    return printCharacteristic.writeValue(encodedText).then(() => {
-        console.log('Write done.');
+    let text = encoder.encode(message.value + '\u000A\u000D');
+    return printCharacteristic.writeValue(text).then(() => {
+      console.log('Write done.');
     });
-}
-*/
-// Use this function to initiate the printing process
-function printReceipt() {
-    const receiptContent = generateReceiptContent(); // Generate the receipt content
-  alert(receiptContent);
-     sendTextData(receiptContent) // Send the generated content for printing        .then(() => {
-            progress.hidden = true; // Hide progress indicator or handle success
-        })
-        .catch(handleError); // Handle errors if any
-}
+  }
 
   function sendPrinterData() {
-      sendTextData()
+         const receiptContent = generateReceiptContent(); // Generate the receipt content
+    alert(receiptContent);
+    sendTextData()
       .then(() => {
-          progress.hidden = true;
+        progress.hidden = true;
+      })
+      .catch(handleError);
+  }*/
+
+
+  
+    function sendTextData(text) {
+      let encoder = new TextEncoder("utf-8");
+      // Add line feed + carriage return chars to text
+      let encodedText = encoder.encode(text.value+ '\u000A\u000D');
+      return printCharacteristic.writeValue(encodedText).then(() => {
+          console.log('Write done.');
+      });
+  }
+  
+  // Use this function to initiate the printing process
+  function printReceipt() {
+      const receiptContent = generateReceiptContent(); // Generate the receipt content
+    alert(receiptContent);
+    sendTextData(receiptContent)
+    .then(() => {
+      progress.hidden = true;
+    })
+    .catch(handleError);
+}
+ 
+  function sendPrinterData() {
+    sendTextData()
+      .then(() => {
+        progress.hidden = true;
       })
       .catch(handleError);
   }
@@ -91,226 +146,220 @@ function printReceipt() {
           services: ['000018f0-0000-1000-8000-00805f9b34fb']
         }]
       })
-      .then(device => {
-        console.log('> Found ' + device.name);
-        console.log('Connecting to GATT Server...');
-        return device.gatt.connect();
-      })
-      .then(server => server.getPrimaryService("000018f0-0000-1000-8000-00805f9b34fb"))
-      .then(service => service.getCharacteristic("00002af1-0000-1000-8000-00805f9b34fb"))
-      .then(characteristic => {
-        // Cache the characteristic
-        printCharacteristic = characteristic;
-        printReceipt();
-//sendPrinterData();
+        .then(device => {
+          console.log('> Found ' + device.name);
+          console.log('Connecting to GATT Server...');
+          return device.gatt.connect();
+        })
+        .then(server => server.getPrimaryService("000018f0-0000-1000-8000-00805f9b34fb"))
+        .then(service => service.getCharacteristic("00002af1-0000-1000-8000-00805f9b34fb"))
+        .then(characteristic => {
+          // Cache the characteristic
+          printCharacteristic = characteristic;
+          // printReceipt();
+          sendPrinterData();
 
-      })
-      .catch(handleError);
+        })
+        .catch(handleError);
     } else {
-        printReceipt();
+      sendPrinterData();
     }
   });
 });// Object to store added items and their quantities
 const addedItems = {};
 
-async function createButtonsFromCSV() {    try {
-  const response = await fetch('menu.csv');
-  const csvData = await response.text();
+async function createButtonsFromCSV() {
+  try {
+    const response = await fetch('menu.csv');
+    const csvData = await response.text();
 
-  // Parse CSV data
-  const rows = csvData.split('\n');
-  const headers = rows[0].split(',');
+    // Parse CSV data
+    const rows = csvData.split('\n');
+    const headers = rows[0].split(',');
 
-  // Extract item data from CSV
-  const items = rows
+    // Extract item data from CSV
+    const items = rows
       .filter(row => row.trim() !== '') // Filter out empty lines
       .slice(1)
       .map(row => {
-          const values = row.split(',');
-          const item = {};
+        const values = row.split(',');
+        const item = {};
 
-          headers.forEach((header, index) => {
-              const trimmedHeader = header.trim();
-              const trimmedValue = values[index] !== undefined ? values[index].trim() : '';
+        headers.forEach((header, index) => {
+          const trimmedHeader = header.trim();
+          const trimmedValue = values[index] !== undefined ? values[index].trim() : '';
 
-              if (trimmedValue !== '') {
-                  item[trimmedHeader] = trimmedValue;
-              } else {
-                  console.error(`Value for header '${trimmedHeader}' is missing in row: ${row}`);
-              }
-          });
+          if (trimmedValue !== '') {
+            item[trimmedHeader] = trimmedValue;
+          } else {
+            console.error(`Value for header '${trimmedHeader}' is missing in row: ${row}`);
+          }
+        });
 
-          console.log('Parsed item:', item); // Add this line for debugging
+        console.log('Parsed item:', item); // Add this line for debugging
 
-          return item;
+        return item;
       });
 
-  console.log('All items:', items); // Add this line for debugging
+    console.log('All items:', items); // Add this line for debugging
 
-  // Create buttons
-  createButtons(items);
-} catch (error) {
-  console.error('Error reading CSV file:', error);
-}
+    // Create buttons
+    createButtons(items);
+  } catch (error) {
+    console.error('Error reading CSV file:', error);
+  }
 }
 
 
 // Function to create clickable buttons
 function createButtons(data) {
-var buttonContainer = document.getElementById('button-container');
+  var buttonContainer = document.getElementById('button-container');
 
-data.forEach(function (item, index) {
-  var button = document.createElement('button');
-  button.innerHTML = `${item.Item} - Rs${item.Price}`;
-  button.className = 'button';
-  button.id = `button-${index + 1}`;
-  button.addEventListener('click', function () {
+  data.forEach(function (item, index) {
+    var button = document.createElement('button');
+    button.innerHTML = `${item.Item} - Rs${item.Price}`;
+    button.className = 'button';
+    button.id = `button-${index + 1}`;
+    button.addEventListener('click', function () {
       addItem(item.Item, item.Price);
-  });
+    });
 
-  buttonContainer.appendChild(button);
-});
+    buttonContainer.appendChild(button);
+  });
 }
 
 // Function to add item to the "Added Items" partition
 function addItem(item, price) {
-const addedItemsContainer = document.getElementById('added-items');
+  const addedItemsContainer = document.getElementById('added-items');
 
-// Check if the item is already added
-if (addedItems[item]) {
-  // Increment quantity if the item is already in the list
-  addedItems[item].quantity += 1;
-} else {
-  // Add the item to the list with quantity 1
-  addedItems[item] = { price: price, quantity: 1 };
-}
+  // Check if the item is already added
+  if (addedItems[item]) {
+    // Increment quantity if the item is already in the list
+    addedItems[item].quantity += 1;
+  } else {
+    // Add the item to the list with quantity 1
+    addedItems[item] = { price: price, quantity: 1 };
+  }
 
-// Update the display and summary
-updateAddedItemDisplay();
-updateSummary();
+  // Update the display and summary
+  updateAddedItemDisplay();
+  updateSummary();
 }
 
 // Function to display added item in the "Added Items" partition
 function displayAddedItem(item, price, quantity) {
-const addedItemsContainer = document.getElementById('added-items');
-const newItemContainer = document.createElement('div');
-newItemContainer.className = 'added-item';
+  const addedItemsContainer = document.getElementById('added-items');
+  const newItemContainer = document.createElement('div');
+  newItemContainer.className = 'added-item';
 
-const itemInfoContainer = document.createElement('div');
-itemInfoContainer.className = 'item-info';
+  const itemInfoContainer = document.createElement('div');
+  itemInfoContainer.className = 'item-info';
 
-const itemName = document.createElement('span');
-itemName.className = 'item-name';
-itemName.textContent = item;
+  const itemName = document.createElement('span');
+  itemName.className = 'item-name';
+  itemName.textContent = item;
 
-const itemPrice = document.createElement('span');
-itemPrice.className = 'item-price';
-itemPrice.textContent = `Rs${price * quantity}`;
-itemPrice.style.marginLeft = '10px'; // Adjust the value as needed
+  const itemPrice = document.createElement('span');
+  itemPrice.className = 'item-price';
+  itemPrice.textContent = `Rs${price * quantity}`;
+  itemPrice.style.marginLeft = '10px'; // Adjust the value as needed
 
   itemPrice.style.marginRight = '100px'; // Adjust the value as needed
 
 
-const quantityButtons = document.createElement('div');
-quantityButtons.className = 'quantity-buttons';
-const minusButton = document.createElement('span');
-minusButton.style.marginleft='50px';
-  minusButton.style.marginRight='50px';
+  const quantityButtons = document.createElement('div');
+  quantityButtons.className = 'quantity-buttons';
+  const minusButton = document.createElement('span');
+  minusButton.style.marginleft = '50px';
+  minusButton.style.marginRight = '50px';
 
-minusButton.className = 'quantity-button';
-minusButton.innerHTML = '-';
-minusButton.addEventListener('click', function () {
-  if (addedItems[item].quantity > 1) {
+  minusButton.className = 'quantity-button';
+  minusButton.innerHTML = '-';
+  minusButton.addEventListener('click', function () {
+    if (addedItems[item].quantity > 1) {
       addedItems[item].quantity -= 1;
       updateAddedItemDisplay();
       updateSummary();
-  } else {
+    } else {
       // If quantity is 0, remove the item
       delete addedItems[item];
       updateAddedItemDisplay();
       updateSummary();
-  }
-});
+    }
+  });
 
 
 
-const quantityDisplay = document.createElement('span');
-quantityDisplay.className = 'quantity';
-quantityDisplay.textContent = quantity;
+  const quantityDisplay = document.createElement('span');
+  quantityDisplay.className = 'quantity';
+  quantityDisplay.textContent = quantity;
 
-const plusButton = document.createElement('span');
-  plusButton.style.marginRight='50px';
+  const plusButton = document.createElement('span');
+  plusButton.style.marginRight = '50px';
 
-plusButton.className = 'quantity-button';
-plusButton.innerHTML = '+';
-plusButton.addEventListener('click', function () {
-  addedItems[item].quantity += 1;
-  updateAddedItemDisplay();
-  updateSummary();
-});
+  plusButton.className = 'quantity-button';
+  plusButton.innerHTML = '+';
+  plusButton.addEventListener('click', function () {
+    addedItems[item].quantity += 1;
+    updateAddedItemDisplay();
+    updateSummary();
+  });
 
-itemInfoContainer.appendChild(itemName);
+  itemInfoContainer.appendChild(itemName);
   itemInfoContainer.appendChild(document.createTextNode(' ')); // Add a space12
-itemInfoContainer.appendChild(itemPrice);
+  itemInfoContainer.appendChild(itemPrice);
 
-quantityButtons.appendChild(plusButton);
-quantityButtons.appendChild(quantityDisplay);
-quantityButtons.appendChild(minusButton);
+  quantityButtons.appendChild(plusButton);
+  quantityButtons.appendChild(quantityDisplay);
+  quantityButtons.appendChild(minusButton);
 
-newItemContainer.appendChild(itemInfoContainer);
-newItemContainer.appendChild(quantityButtons);
+  newItemContainer.appendChild(itemInfoContainer);
+  newItemContainer.appendChild(quantityButtons);
 
-addedItemsContainer.appendChild(newItemContainer);
+  addedItemsContainer.appendChild(newItemContainer);
 }
 // Function to update the display of added item quantity
 function updateAddedItemDisplay() {
-const addedItemsContainer = document.getElementById('added-items');
-addedItemsContainer.innerHTML = '<h2>Added Items:</h2>';
+  const addedItemsContainer = document.getElementById('added-items');
+  addedItemsContainer.innerHTML = '<h2>Added Items:</h2>';
 
-// Iterate through added items and display them
-for (const item in addedItems) {
-  displayAddedItem(item, addedItems[item].price, addedItems[item].quantity);
-}
+  // Iterate through added items and display them
+  for (const item in addedItems) {
+    displayAddedItem(item, addedItems[item].price, addedItems[item].quantity);
+  }
 }
 
 // Function to update the summary
 function updateSummary() {
-const summaryDiv = document.getElementById('summary');
-const priceSpan = document.getElementById('price');
-const taxSpan = document.getElementById('tax');
-const totalSpan = document.getElementById('total');
+  const summaryDiv = document.getElementById('summary');
+  const priceSpan = document.getElementById('price');
+  const taxSpan = document.getElementById('tax');
+  const totalSpan = document.getElementById('total');
 
-// Calculate the total price, tax, and overall total
-let totalPrice = 0;
+  // Calculate the total price, tax, and overall total
+  let totalPrice = 0;
 
-for (const item in addedItems) {
-  totalPrice += addedItems[item].price * addedItems[item].quantity;
+  for (const item in addedItems) {
+    totalPrice += addedItems[item].price * addedItems[item].quantity;
+  }
+
+  const tax = totalPrice * 0.05; // Assuming tax is 18%
+  const total = totalPrice + tax;
+
+  // Update the summary display
+  priceSpan.textContent = totalPrice.toFixed(2);
+  taxSpan.textContent = tax.toFixed(2);
+  totalSpan.textContent = total.toFixed(2);
 }
 
-const tax = totalPrice * 0.05; // Assuming tax is 18%
-const total = totalPrice + tax;
 
-// Update the summary display
-priceSpan.textContent = totalPrice.toFixed(2);
-taxSpan.textContent = tax.toFixed(2);
-totalSpan.textContent = total.toFixed(2);
-}
+function generateReceiptContent() {
+  let content = '';
+
+  // Header with Rectangle around "Campus savories" and spaces added
+  content += ' Campus savories+ GST No-29ABEPS2937F1ZF\n';
 
 
-function generateReceiptContent()
-
-
-
-
-
-
-{
-    let content = '';
-
-    // Header with Rectangle around "Campus savories" and spaces added
-    content += ' Campus savories+ GST No-29ABEPS2937F1ZF\n';
-  
- 
 
   return content;
 }
