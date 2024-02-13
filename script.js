@@ -60,7 +60,7 @@ document.addEventListener('WebComponentsReady', function () {
   }
 
   function handleError(error) {
-    alert.log(error);
+    alert(error);
     progress.hidden = true;
     printCharacteristic = null;
     dialog.open();
