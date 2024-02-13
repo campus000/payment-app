@@ -123,7 +123,7 @@ function printReceipt() {
         // Find the splitting point for the receipt content
         while (i < receiptContent.length) {
             // If adding the current character to the first part keeps it below 256 bytes, add it
-            if ((firstPart.length + secondPart.length) < 512 && firstPart.length < 256) {
+            if ((firstPart.length + secondPart.length) < 512 && firstPart.length < 270) {
                 firstPart += receiptContent[i];
             } else {
                 // Otherwise, add it to the second part
@@ -158,7 +158,9 @@ function printReceipt() {
             .catch(handleError);
     }
 }
-  function sendPrinterData() {
+
+
+     function sendPrinterData() {
     sendTextData()
       .then(() => {
         progress.hidden = true;
@@ -413,14 +415,16 @@ const itemName = item.toString(); // Use the item itself as the name
 const itemCost = addedItems[item].price * addedItems[item].quantity;
 
 // Item Row with adjusted spacing and line break for long item names
-const itemRow = `${itemName}${addedItems[item].quantity.toString()}${itemCost.toFixed(2)}\n`;
+//const itemRow = `${itemName}${addedItems[item].quantity.toString()}${itemCost.toFixed(2)}\n`;
+  const itemRow = `${itemName.slice(0, 10).padEnd(12)}${addedItems[item].quantity.toString().padEnd(12)}${itemCost.toFixed(2)}\n`;
+content += itemRow;
 content += itemRow;
 
 // If the item name is too long, add the remaining part on the next line
-/*if (itemName.length > 10) {
+if (itemName.length > 10) {
   content += `${itemName.slice(10)}\n`;
 }
-*/
+
 totalAmount += itemCost;
 }
 
