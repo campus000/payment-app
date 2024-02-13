@@ -111,43 +111,39 @@ document.addEventListener('WebComponentsReady', function () {
 }
  */
 
- function printReceipt() {
+function printReceipt() {
     const receiptContent = generateReceiptContent(); // Generate the receipt content
 
     // Check if the receipt content size is greater than or equal to 512 bytes
     if (receiptContent.length >= 512) {
         let firstPart = '';
         let secondPart = '';
+        let i = 0;
 
-        // Iterate over receipt content to find the splitting point
- 
-      // Iterate over receipt content to find the splitting point
-// Iterate over receipt content to find the splitting point
-let i = 0;
-while (i < receiptContent.length && (firstPart.length < 256 && (firstPart.length + secondPart.length) < receiptContent.length)) {
-    // If adding the current character to the first part keeps it below 256 bytes, add it
-    if ((firstPart.length + secondPart.length) < 512) {
-        firstPart += receiptContent[i];
-    } else {
-        // Otherwise, add it to the second part
-        secondPart += receiptContent[i];
-    }
-    i++;
-}
+        // Find the splitting point for the receipt content
+        while (i < receiptContent.length) {
+            // If adding the current character to the first part keeps it below 256 bytes, add it
+            if ((firstPart.length + secondPart.length) < 512 && firstPart.length < 256) {
+                firstPart += receiptContent[i];
+            } else {
+                // Otherwise, add it to the second part
+                secondPart += receiptContent[i];
+            }
+            i++;
+        }
 
+        // Alert the first part
+        alert("First Part:\n" + firstPart);
 
-
-        // Alert the length of the first part
-        alert("Length of first part: " + firstPart.length);
-
-        // Alert the length of the second part
-        alert("Length of second part: " + secondPart.length);
+        // Alert the second part
+        alert("Second Part:\n" + secondPart);
 
         // Print the first part
         sendTextData(firstPart)
             .then(() => {
-              alert("printing second part");
-                 sendTextData(secondPart)                    .then(() => {
+                // After printing the first part, print the second part
+                sendTextData(secondPart)
+                    .then(() => {
                         progress.hidden = true;
                     })
                     .catch(handleError);
@@ -162,8 +158,6 @@ while (i < receiptContent.length && (firstPart.length < 256 && (firstPart.length
             .catch(handleError);
     }
 }
-
-
   function sendPrinterData() {
     sendTextData()
       .then(() => {
