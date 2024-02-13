@@ -34,11 +34,38 @@
                 return service.getCharacteristic('000018f0-0000-1000-8000-00805f9b34fb');
             })
             .then(characteristic => {
-                // Sample text to print. You might need to encode this in the format your printer requires.
-                const encoder = new TextEncoder();
-                const text = encoder.encode('Hello, thermal printer!\n');
-                console.log('Sending text to the printer...');
-                return characteristic.writeValue(text);
+
+
+
+// Example text to print
+const textToPrint = 'Hello, thermal printer!';
+
+// Construct ESC/POS command for left-aligned text
+const command = new Uint8Array([
+    0x1B, 0x61, 0x00, // Align left
+    0x1D, 0x21, 0x00, // Set text size to normal
+]);
+
+// Convert text to bytes using TextEncoder
+const textBytes = new TextEncoder().encode(textToPrint);
+
+// Combine the ESC/POS command and text bytes
+const data = new Uint8Array(command.length + textBytes.length);
+data.set(command);
+data.set(textBytes, command.length);
+
+// Assuming characteristic is the characteristic you obtained earlier
+characteristic.writeValue(data)
+    .then(() => {
+        console.log('Text sent to the printer successfully!');
+    })
+    .catch(error => {
+        console.error('Failed to print text:', error);
+    });
+
+
+
+                 
             })
             .then(() => {
                 console.log('Text sent to the printer successfully!');
