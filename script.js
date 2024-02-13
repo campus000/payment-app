@@ -361,17 +361,17 @@ const formattedTime = currentDate.toLocaleTimeString();
   let content = '';
 
   // Header with Rectangle around "Campus savories" and spaces added
-  content += '---------------------------------\n';
+  content += '--------------------------------\n';
 
-  content += '|        Campus savories         \n';     
-  content += '---------------------------------\n';
+  content += '        Campus savories         \n';     
+  content += '--------------------------------\n';
 
 content += 'GST No-29ABEPS2937F1ZF\n';
 content += 'Bill No.: #12345\n';
 content += `Time.:  ${formattedTime}\n`;
 
 content += '          + INVOICE +\n';
-content += '---------------------------------\n';
+content += '--------------------------------\n';
 
 content += 'Item        Quantity      Amount\n';
 
@@ -395,7 +395,7 @@ if (itemName.length > 10) {
 totalAmount += itemCost;
 }
 
-content += '---------------------------------\n';
+content += '--------------------------------\n';
 content += `Total Amount:        Rs ${totalAmount.toFixed(2)}\n`;
 // Calculate 5% tax (GST) on the total amount
 const tax = totalAmount * 0.05;
@@ -415,7 +415,7 @@ content += `Round Up:             Rs  ${roundOff.toFixed(2)}\n`;
 
 // Add the rounded grand total
 content += `Grand Total:          Rs ${Math.round(roundedGrandTotal).toFixed(2)}\n`;
-content += '---------------------------------\n';
+content += '--------------------------------\n';
 
   return content;
 }
