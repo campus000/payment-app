@@ -357,7 +357,7 @@ function generateReceiptContent() {
   let content = '';
 
   // Header with Rectangle around "Campus savories" and spaces added
-  content += ' Campus savories\n';
+  content += '          Campus savories\n';
 content += 'GST No-29ABEPS2937F1ZF\n';
 content += 'Bill No.: #12345\n';
 content += '          +     INVOICE +\n';
@@ -372,7 +372,7 @@ const itemName = item.toString(); // Use the item itself as the name
 const itemCost = addedItems[item].price * addedItems[item].quantity;
 
 // Item Row with adjusted spacing and line break for long item names
-const itemRow = `${itemName.slice(0, 10).padEnd(14)}${addedItems[item].quantity.toString().padEnd(14)}${itemCost.toFixed(2)}\n`;
+const itemRow = `${itemName.slice(0, 10).padEnd(10)}${addedItems[item].quantity.toString().padEnd(10)}${itemCost.toFixed(2)}\n`;
 content += itemRow;
 
 // If the item name is too long, add the remaining part on the next line
@@ -391,7 +391,7 @@ const tax = totalAmount * 0.05;
 // Calculate the grand total by adding the tax to the total amount
 const grandTotal = totalAmount + tax;
 
-content += `GST (5%):                  Rs  ${tax.toFixed(2)}\n`;
+content += `GST (5%):             Rs  ${tax.toFixed(2)}\n`;
 const roundedGrandTotal = grandTotal % 1 === 0 ? grandTotal : Math.ceil(grandTotal);
 
 // Calculate the round-off amount (always positive)
@@ -399,10 +399,13 @@ const roundOff = roundedGrandTotal - grandTotal;
 // Calculate the round off amount
 
 
-content += `Round Up:                  Rs  ${roundOff.toFixed(2)}\n`;
+content += `Round Up:             Rs  ${roundOff.toFixed(2)}\n`;
 
 // Add the rounded grand total
-content += `Grand Total:               Rs ${Math.round(roundedGrandTotal).toFixed(2)}\n`;
+content += `Grand Total:          Rs ${Math.round(roundedGrandTotal).toFixed(2)}\n`;
+content += '------------------------------------------------\n';
+content += '           Thank You! Visit Again\n';
+content += '------------------------------------------------\n';
   return content;
 }
 /*
