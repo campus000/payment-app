@@ -262,16 +262,16 @@ function displayAddedItem(item, price, quantity) {
   const itemPrice = document.createElement('span');
   itemPrice.className = 'item-price';
   itemPrice.textContent = `Rs${price * quantity}`;
-  itemPrice.style.marginLeft = '10px'; // Adjust the value as needed
+//  itemPrice.style.marginLeft = '10px'; // Adjust the value as needed
 
-  itemPrice.style.marginRight = '100px'; // Adjust the value as needed
+  //itemPrice.style.marginRight = '100px'; // Adjust the value as needed
 
 
   const quantityButtons = document.createElement('div');
   quantityButtons.className = 'quantity-buttons';
   const minusButton = document.createElement('span');
-  minusButton.style.marginleft = '50px';
-  minusButton.style.marginRight = '50px';
+  //minusButton.style.marginleft = '50px';
+  //minusButton.style.marginRight = '50px';
 
   minusButton.className = 'quantity-button';
   minusButton.innerHTML = '-';
