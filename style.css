@@ -207,10 +207,36 @@ main {
     margin-bottom: 20px; /* Add margin between the two elements */
 }
 
-    .summary {
+      .summary {
         width: 100%; /* Adjusted to full width for tablets */
     }
-}
+
+    #summary {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        width: 300px; /* Adjust width as needed */
+      }
+      
+      .summary-row {
+        margin-bottom: 5px;
+        display: flex;
+        justify-content: space-between;
+      }
+      
+      .summary-label {
+        font-weight: bold;
+        text-align: left; /* Align labels to the left */
+        width: 60%; /* Adjust width as needed */
+      }
+      
+      .summary-value {
+        text-align: right;
+        width: 35%; /* Adjust width as needed */
+      }
+      
 
 /* Mobile Screens (up to 480px) */
 @media screen and (max-width: 480px) {
