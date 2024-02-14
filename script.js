@@ -101,7 +101,7 @@ document.addEventListener('WebComponentsReady', function () {
   
  
 
-function printReceipt() {
+/*function printReceipt() {
     const receiptContent = generateReceiptContent(); // Generate the receipt content
 
     // Check if the receipt content size is greater than or equal to 512 bytes
@@ -147,6 +147,39 @@ function printReceipt() {
             })
             .catch(handleError);
     }
+}
+*/function printReceipt() {
+    const receiptContent = generateReceiptContent(); // Generate the receipt content
+
+    // Determine the batch size based on your requirement
+    const batchSize = 512; // or any other suitable batch size
+
+    // Calculate the number of batches needed
+    const numBatches = Math.ceil(receiptContent.length / batchSize);
+
+    // Function to print each batch
+    function printBatch(batchIndex) {
+        // Calculate the start and end indices for the current batch
+        const start = batchIndex * batchSize;
+        const end = Math.min((batchIndex + 1) * batchSize, receiptContent.length);
+        const batchContent = receiptContent.substring(start, end);
+
+        // Print the current batch
+        sendTextData(batchContent)
+            .then(() => {
+                // If there are more batches, print the next batch
+                if (batchIndex < numBatches - 1) {
+                    printBatch(batchIndex + 1);
+                } else {
+                    // If all batches have been printed, hide progress or perform any final actions
+                    progress.hidden = true;
+                }
+            })
+            .catch(handleError);
+    }
+
+    // Start printing the first batch
+    printBatch(0);
 }
 
 
