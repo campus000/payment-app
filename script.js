@@ -162,7 +162,7 @@ document.addEventListener('WebComponentsReady', function () {
         const batchContent = receiptContent.substring(start, end);
 
         // Print the current batch
-        sendTextDataToPrinter(batchContent)
+        sendTextData(batchContent)
             .then(() => {
                 // If there's more content, print the next batch
                 if (end < receiptContent.length) {
