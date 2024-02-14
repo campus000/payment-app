@@ -152,23 +152,21 @@ document.addEventListener('WebComponentsReady', function () {
     const receiptContent = generateReceiptContent(); // Generate the receipt content
 
     // Determine the batch size based on your requirement
-    const batchSize = 511; // or any other suitable batch size
+    const batchSize = 512; // or any other suitable batch size
 
-    // Calculate the number of batches needed
-    const numBatches = Math.ceil(receiptContent.length / batchSize);
+    // Split the receipt content into batches
+    const batches = [];
+    for (let i = 0; i < receiptContent.length; i += batchSize) {
+        batches.push(receiptContent.substring(i, i + batchSize));
+    }
 
     // Function to print each batch
     function printBatch(batchIndex) {
-        // Calculate the start and end indices for the current batch
-        const start = batchIndex * batchSize;
-        const end = Math.min((batchIndex + 1) * batchSize, receiptContent.length);
-        const batchContent = receiptContent.substring(start, end);
-
         // Print the current batch
-        sendTextData(batchContent)
+        sendTextData(batches[batchIndex])
             .then(() => {
                 // If there are more batches, print the next batch
-                if (batchIndex < numBatches - 1) {
+                if (batchIndex < batches.length - 1) {
                     printBatch(batchIndex + 1);
                 } else {
                     // If all batches have been printed, hide progress or perform any final actions
