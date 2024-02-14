@@ -154,31 +154,40 @@ document.addEventListener('WebComponentsReady', function () {
     // Determine the batch size based on your requirement
     const batchSize = 512; // or any other suitable batch size
 
-    // Split the receipt content into batches
-    const batches = [];
-    for (let i = 0; i < receiptContent.length; i += batchSize) {
-        batches.push(receiptContent.substring(i, i + batchSize));
-    }
+    // Return a Promise that resolves when all batches are printed
+    return new Promise((resolve, reject) => {
+        // Split the receipt content into batches
+        const batches = [];
+        for (let i = 0; i < receiptContent.length; i += batchSize) {
+            batches.push(receiptContent.substring(i, i + batchSize));
+        }
 
-    // Function to print each batch
-    function printBatch(batchIndex) {
-        // Print the current batch
-        sendTextData(batches[batchIndex])
-            .then(() => {
-                // If there are more batches, print the next batch
-                if (batchIndex < batches.length - 1) {
+        // Function to print each batch
+        function printBatch(batchIndex) {
+            // If all batches are printed or batchIndex is out of range, resolve the Promise
+            if (batchIndex >= batches.length) {
+                progress.hidden = true; // Hide progress or perform final actions
+                resolve("Receipt printed successfully.");
+                return;
+            }
+
+            // Print the current batch
+            sendTextData(batches[batchIndex])
+                .then(() => {
+                    // Print the next batch recursively
                     printBatch(batchIndex + 1);
-                } else {
-                    // If all batches have been printed, hide progress or perform any final actions
-                    progress.hidden = true;
-                }
-            })
-            .catch(handleError);
-    }
+                })
+                .catch(error => {
+                    // If there's an error, reject the Promise
+                    reject(error);
+                });
+        }
 
-    // Start printing the first batch
-    printBatch(0);
+        // Start printing from the first batch
+        printBatch(0);
+    });
 }
+
 
 
      function sendPrinterData() {
