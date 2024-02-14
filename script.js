@@ -154,39 +154,29 @@ document.addEventListener('WebComponentsReady', function () {
     // Determine the batch size based on your requirement
     const batchSize = 512; // or any other suitable batch size
 
-    // Return a Promise that resolves when all batches are printed
-    return new Promise((resolve, reject) => {
-        // Split the receipt content into batches
-        const batches = [];
-        for (let i = 0; i < receiptContent.length; i += batchSize) {
-            batches.push(receiptContent.substring(i, i + batchSize));
-        }
+    // Calculate the number of batches needed
+    const numBatches = Math.ceil(receiptContent.length / batchSize);
 
-        // Function to print each batch
-        function printBatch(batchIndex) {
-            // If all batches are printed or batchIndex is out of range, resolve the Promise
-            if (batchIndex >= batches.length) {
-                progress.hidden = true; // Hide progress or perform final actions
-                resolve("Receipt printed successfully.");
-                return;
-            }
+    // Function to print each batch
+    function printBatch(batchIndex) {
+        // Calculate the start and end indices for the current batch
+        const start = batchIndex * batchSize;
+        const end = Math.min((batchIndex + 1) * batchSize, receiptContent.length);
+        const batchContent = receiptContent.substring(start, end);
 
-            // Print the current batch
-            sendTextData(batches[batchIndex])
-                .then(() => {
-                    // Print the next batch recursively
-                    printBatch(batchIndex + 1);
-                })
-                .catch(error => {
-                    // If there's an error, reject the Promise
-                    reject(error);
-                });
-        }
+        // Print the current batch
+        return sendTextData(batchContent)
+            .then(() => {
+                // If there are more batches, print the next batch
+                const nextBatchIndex = (batchIndex + 1) % numBatches; // Loop back if reaching the end
+                return printBatch(nextBatchIndex);
+            });
+    }
 
-        // Start printing from the first batch
-        printBatch(0);
-    });
+    // Start printing from the first batch
+    return printBatch(0);
 }
+
 
 
 
