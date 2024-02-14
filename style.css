@@ -217,9 +217,7 @@ main {
         border: 1px solid #ccc;
         border-radius: 5px;
         background-color: #f9f9f9;
-        width: 300px; /* Adjust width as needed */
-      }
-      
+       }      
       .summary-row {
         margin-bottom: 5px;
         display: flex;
