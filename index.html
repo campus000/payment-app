@@ -93,12 +93,24 @@
             <h2>Added Items:</h2>
             <!-- Added items will be displayed here -->
         </div>
-        <div class="summary" id="summary">
-            <h3>Summary:</h3>
-            <p><strong>Price:</strong> <span id="price">0</span></p>
-            <p><strong>Tax (5%):</strong> <span id="tax">0</span></p>
-            <p><strong>Total:</strong> <span id="total">0</span></p>
-         </div>         <div id="cards">
+      <div id="summary">
+          <div class="summary-row">
+            <span class="summary-label">Price:</span>
+            <span class="summary-value" id="price">0.00</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Tax:</span>
+            <span class="summary-value" id="tax">0.00</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Total:</span>
+            <span class="summary-value" id="total">0.00</span>
+          </div>
+        </div>
+         <div id="cards">
+         <div class="card-content">         
+             <paper-progress id="progress" indeterminate></paper-progress>
+        </div>        <div id="cards">
          <div class="card-content">         
              <paper-progress id="progress" indeterminate></paper-progress>
         </div>
