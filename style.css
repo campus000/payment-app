@@ -57,9 +57,7 @@ main {
     font-family: "SF Pro Text","SF Pro Icons","AOS Icons","Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 17px;
     font-weight: 400;
-    letter-spacing: -.022em;
-    line-height: 1.47059;
-    min-width: 30px;
+     line-height: 1.47059;    min-width: 30px;
     overflow: visible;
     padding: 4px 15px;
     text-align: center;
