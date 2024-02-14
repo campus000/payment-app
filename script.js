@@ -430,7 +430,7 @@ function displayAddedItem(item, price, quantity) {
 // Function to update the display of added item quantity
 function updateAddedItemDisplay() {
   const addedItemsContainer = document.getElementById('added-items');
-  addedItemsContainer.innerHTML = '<h2>Added Items:</h2>';
+  addedItemsContainer.innerHTML = '<h2>Order Summary:</h2>';
 
   // Iterate through added items and display them
   for (const item in addedItems) {
