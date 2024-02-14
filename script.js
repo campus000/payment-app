@@ -412,7 +412,7 @@ let totalAmount = 0;
 for (const item in addedItems) {
 const itemName = item.toString(); // Use the item itself as the name
  
- //const itemRow = `${itemName}${addedItems[item].quantity.toString()}${itemCost.toFixed(2)}\n`;
+ const itemRow = `${itemName}${addedItems[item].quantity.toString()}${itemCost.toFixed(2)}\n`;
 const itemRow = `${itemName.slice(0, 10).padEnd(12)}${addedItems[item].quantity.toString().padEnd(12)}${itemCost.toFixed(2)}\n`;
 content += itemRow;
 content += itemRow;
