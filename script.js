@@ -99,17 +99,7 @@ document.addEventListener('WebComponentsReady', function () {
       });
   }
   
-  // Use this function to initiate the printing process
-/*  function printReceipt() {
-      const receiptContent = generateReceiptContent(); // Generate the receipt content
-    alert(receiptContent);
-    sendTextData(receiptContent)
-    .then(() => {
-      progress.hidden = true;
-    })
-    .catch(handleError);
-}
- */
+ 
 
 function printReceipt() {
     const receiptContent = generateReceiptContent(); // Generate the receipt content
@@ -275,91 +265,7 @@ function addItem(item, price) {
   updateAddedItemDisplay();
   updateSummary();
 }
-/*
-// Function to display added item in the "Added Items" partition
-function displayAddedItem(item, price, quantity) {
-  const addedItemsContainer = document.getElementById('added-items');
-  const newItemContainer = document.createElement('div');
-  newItemContainer.className = 'added-item';
-
-  const itemInfoContainer = document.createElement('div');
-  itemInfoContainer.className = 'item-info';
-
-  const itemName = document.createElement('span');
-  itemName.className = 'item-name';
-  itemName.textContent = item;
-
-  const itemPrice = document.createElement('span');
-  itemPrice.className = 'item-price';
-  itemPrice.textContent = `Rs${price * quantity}`;
-//  itemPrice.style.marginLeft = '10px'; // Adjust the value as needed
-
-  //itemPrice.style.marginRight = '100px'; // Adjust the value as needed
-
-
-  const quantityButtons = document.createElement('div');
-  quantityButtons.className = 'quantity-buttons';
-  const minusButton = document.createElement('span');
-  //minusButton.style.marginleft = '50px';
-  //minusButton.style.marginRight = '50px';
-
-  minusButton.className = 'quantity-button';
-  minusButton.innerHTML = '-';
-  minusButton.addEventListener('click', function () {
-    if (addedItems[item].quantity > 1) {
-      addedItems[item].quantity -= 1;
-      updateAddedItemDisplay();
-      updateSummary();
-    } else {
-      // If quantity is 0, remove the item
-      delete addedItems[item];
-      updateAddedItemDisplay();
-      updateSummary();
-    }
-  });
-
-
-
-  const quantityDisplay = document.createElement('span');
-  quantityDisplay.className = 'quantity';
-  quantityDisplay.textContent = quantity;
-
-  const plusButton = document.createElement('span');
-  plusButton.style.marginRight = '50px';
-
-  plusButton.className = 'quantity-button';
-  plusButton.innerHTML = '+';
-  plusButton.addEventListener('click', function () {
-    addedItems[item].quantity += 1;
-    updateAddedItemDisplay();
-    updateSummary();
-  });
-
-  itemInfoContainer.appendChild(itemName);
-  itemInfoContainer.appendChild(document.createTextNode(' ')); // Add a space12
-  itemInfoContainer.appendChild(itemPrice);
-
-  quantityButtons.appendChild(plusButton);
-  quantityButtons.appendChild(quantityDisplay);
-  quantityButtons.appendChild(minusButton);
-
-  newItemContainer.appendChild(itemInfoContainer);
-  newItemContainer.appendChild(quantityButtons);
-
-  addedItemsContainer.appendChild(newItemContainer);
-}
-// Function to update the display of added item quantity
-function updateAddedItemDisplay() {
-  const addedItemsContainer = document.getElementById('added-items');
-  addedItemsContainer.innerHTML = '<h2>Added Items:</h2>';
-
-  // Iterate through added items and display them
-  for (const item in addedItems) {
-    displayAddedItem(item, addedItems[item].price, addedItems[item].quantity);
-  }
-}*/
-function displayAddedItem(item, price, quantity) {
-  const addedItemsContainer = document.getElementById('added-items');
+ function displayAddedItem(item, price, quantity) {  const addedItemsContainer = document.getElementById('added-items');
   const newItemContainer = document.createElement('div');
   newItemContainer.className = 'added-item';
 
