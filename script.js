@@ -399,30 +399,34 @@ function displayAddedItem(item, price, quantity) {
   const plusButton = document.createElement('span');
   plusButton.className = 'quantity-button';
   plusButton.innerHTML = '+';
-  plusButton.style.marginRight = '10px'; // Adjust the value as needed
   plusButton.addEventListener('click', function () {
     addedItems[item].quantity += 1;
     updateAddedItemDisplay();
     updateSummary();
   });
 
+  // Append elements to the itemInfoContainer
   itemInfoContainer.appendChild(itemName);
-  itemInfoContainer.appendChild(document.createTextNode(' '));
+  itemInfoContainer.appendChild(document.createElement('br')); // Add line break for spacing
   itemInfoContainer.appendChild(itemPrice);
 
-  quantityButtons.appendChild(plusButton);
-  quantityButtons.appendChild(quantityDisplay);
+  // Append elements to the quantityButtons container
   quantityButtons.appendChild(minusButton);
+  quantityButtons.appendChild(quantityDisplay);
+  quantityButtons.appendChild(plusButton);
 
+  // Append itemInfoContainer and quantityButtons to the newItemContainer
   newItemContainer.appendChild(itemInfoContainer);
   newItemContainer.appendChild(quantityButtons);
 
   // Add an empty line after each record
+  newItemContainer.appendChild(document.createElement('p'));
+  newItemContainer.appendChild(document.createElement('br'));
   newItemContainer.appendChild(document.createElement('br'));
 
+  // Append newItemContainer to addedItemsContainer
   addedItemsContainer.appendChild(newItemContainer);
 }
-
 // Function to update the display of added item quantity
 function updateAddedItemDisplay() {
   const addedItemsContainer = document.getElementById('added-items');
