@@ -206,7 +206,7 @@ main {
     width: calc(100% - 1px); /* Set width to 50% minus margins */
     margin-bottom: 20px; /* Add margin between the two elements */
 }
-
+}
       .summary {
         width: 100%; /* Adjusted to full width for tablets */
     }
