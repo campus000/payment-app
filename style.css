@@ -95,13 +95,13 @@ main {
 }
 .added-item {
     display: flex; /* Use flexbox */
-        font-size: x-large; /* Use flexbox */
+    font-size: large; /* Use flexbox */
 
  
 }
 .added-items {
     width: inherit; /* Use flexbox */
-        font-size: x-large; /* Use flexbox */
+        font-size: large; /* Use flexbox */
 
  
 }
