@@ -495,7 +495,7 @@ const itemCost = addedItems[item].price * addedItems[item].quantity;
 
 // Item Row with adjusted spacing and line break for long item names
 //const itemRow = `${itemName}${addedItems[item].quantity.toString()}${itemCost.toFixed(2)}\n`;
-const itemRow = `${itemName.slice(0, 10).padEnd(11)}${addedItems[item].quantity.toString().padEnd(11)}${itemCost.toFixed(2)}\n`;
+const itemRow = `${itemName.slice(0, 10).padEnd(14)}${addedItems[item].quantity.toString().padEnd(14)}${itemCost.toFixed(2)}\n`;
 //content += itemRow;
 content += itemRow;
 
