@@ -477,14 +477,14 @@ const formattedTime = currentDate.toLocaleTimeString();
   content += '--------------------------------\n';
 
 content += 'GST No-29ABEPS2937F1ZF\n';
-content += 'Bill No.: #12345\n';
-content += `Time.:  ${formattedTime}\n`;
-  content += '--------------------------------\n';
+ content += `Time.:  ${formattedTime}\n`;  content += '--------------------------------\n';
 
 content += '          INVOICE \n';
 content += '--------------------------------\n';
 
 content += 'Item        Quantity      Amount\n';
+  content += '--------------------------------\n';
+
 
 let totalAmount = 0;
  
@@ -496,7 +496,7 @@ const itemCost = addedItems[item].price * addedItems[item].quantity;
 
 // Item Row with adjusted spacing and line break for long item names
 //const itemRow = `${itemName}${addedItems[item].quantity.toString()}${itemCost.toFixed(2)}\n`;
-const itemRow = `${itemName.slice(0, 10).padEnd(12)}${addedItems[item].quantity.toString().padEnd(12)}${itemCost.toFixed(2)}\n`;
+const itemRow = `${itemName.slice(0, 10).padEnd(14)}${addedItems[item].quantity.toString().padEnd(14)}${itemCost.toFixed(2)}\n`;
 //content += itemRow;
 content += itemRow;
 
