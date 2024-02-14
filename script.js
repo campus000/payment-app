@@ -123,7 +123,7 @@ function printReceipt() {
         // Find the splitting point for the receipt content
         while (i < receiptContent.length) {
             // If adding the current character to the first part keeps it below 256 bytes, add it
-            if ((firstPart.length + secondPart.length) < 512 && firstPart.length < 276) {
+            if ((firstPart.length + secondPart.length) < 512 && firstPart.length < 274) {
                 firstPart += receiptContent[i];
             } else {
                 // Otherwise, add it to the second part
@@ -482,7 +482,7 @@ content += 'GST No-29ABEPS2937F1ZF\n';
 content += '          INVOICE \n';
 content += '--------------------------------\n';
 
-content += 'Item        Quantity      Amount\n';
+content += 'Item        Quantity      Amount-\n';
  
 
 let totalAmount = 0;
