@@ -227,11 +227,15 @@ main {
         font-weight: bold;
         text-align: left; /* Align labels to the left */
         width: 60%; /* Adjust width as needed */
+                  font-size: medium;  
+
       }
       
       .summary-value {
         text-align: right;
         width: 35%; /* Adjust width as needed */
+                            font-size: medium;  
+
       }
       
 
