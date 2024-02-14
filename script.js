@@ -152,7 +152,7 @@ document.addEventListener('WebComponentsReady', function () {
     const receiptContent = generateReceiptContent(); // Generate the receipt content
 
     // Determine the batch size based on your requirement
-    const batchSize = 512; // or any other suitable batch size
+    const batchSize = 511; // or any other suitable batch size
 
     // Calculate the number of batches needed
     const numBatches = Math.ceil(receiptContent.length / batchSize);
