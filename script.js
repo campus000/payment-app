@@ -133,10 +133,10 @@ function printReceipt() {
         }
 
         // Alert the first part
-       // alert("First Part:\n" + firstPart);
+        alert("First Part:\n" + firstPart);
 
         // Alert the second part
-        //alert("Second Part:\n" + secondPart);
+        alert("Second Part:\n" + secondPart);
 
         // Print the first part
         sendTextData(firstPart)
