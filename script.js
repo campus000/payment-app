@@ -482,7 +482,7 @@ content += 'GST No-29ABEPS2937F1ZF\n';
 content += '          INVOICE \n';
 content += '--------------------------------\n';
 
-content += 'Item        Quantity      Amount-\n';
+content += 'Item        Quantity      Amount\n';
  
 
 let totalAmount = 0;
@@ -508,7 +508,7 @@ totalAmount += itemCost;
 }
 
 content += '--------------------------------\n';
-content += `Total Amount:        Rs ${totalAmount.toFixed(2)}\n`;
+content += `Total Amount:         Rs ${totalAmount.toFixed(2)}\n`;
 // Calculate 5% tax (GST) on the total amount
 const tax = totalAmount * 0.05;
 
