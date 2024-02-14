@@ -106,7 +106,42 @@ main {
  
 }
 
- 
+ .added-item {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc; /* Add a border between items */
+    padding-bottom: 10px;
+  }
+
+  .item-info {
+    display: inline-block;
+    width: 60%; /* Adjust the width as needed */
+  }
+
+  .item-name {
+    font-weight: bold;
+  }
+
+  .item-price {
+    color: #777;
+  }
+
+  .quantity-buttons {
+    display: inline-block;
+    width: 35%; /* Adjust the width as needed */
+    text-align: right;
+  }
+
+  .quantity-button {
+    cursor: pointer;
+    margin: 0 5px;
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+
+  .quantity-button:hover {
+    background-color: #e0e0e0;
+  }
 
 
     .summary {
