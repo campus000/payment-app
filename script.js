@@ -483,8 +483,7 @@ content += '          INVOICE \n';
 content += '--------------------------------\n';
 
 content += 'Item        Quantity      Amount\n';
-  content += '--------------------------------\n';
-
+ 
 
 let totalAmount = 0;
  
