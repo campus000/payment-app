@@ -475,7 +475,7 @@ const formattedTime = currentDate.toLocaleTimeString();
 
   content += '        Campus savories         \n';     
   content += '--------------------------------\n';
-
+content += 'Bill No.: #12345\n';
 content += 'GST No-29ABEPS2937F1ZF\n';
  content += `Time.:  ${formattedTime}\n`;  content += '--------------------------------\n';
 
