@@ -453,7 +453,7 @@ function updateSummary() {
     totalPrice += addedItems[item].price * addedItems[item].quantity;
   }
 
-  const tax = totalPrice * 0.05; // Assuming tax is 18%
+  const tax = totalPrice * 0.05; // Assuming tax is 5%
   const total = totalPrice + tax;
 
   // Update the summary display
@@ -461,6 +461,7 @@ function updateSummary() {
   taxSpan.textContent = tax.toFixed(2);
   totalSpan.textContent = total.toFixed(2);
 }
+
 
 
 function generateReceiptContent() {
