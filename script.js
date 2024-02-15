@@ -190,8 +190,7 @@ document.addEventListener('WebComponentsReady', function () {
         sendTextData(receiptContent)
             .then(() => {
                 alert("Receipt printing complete.");
-                                  let addedItems = {}; // Clear the addedItems object
-    updateAddedItemDisplay();
+                                             clearAddedItems(); // Clear added items after printing
             })
             .catch(error => {
                 // Handle printing errors
@@ -236,6 +235,14 @@ document.addEventListener('WebComponentsReady', function () {
     }
   });
 });// Object to store added items and their quantities
+
+function clearAddedItems() {
+  for (const item in addedItems) {
+    delete addedItems[item];
+  }
+  // Update the display
+  updateAddedItemDisplay();
+}
 const addedItems = {};
 
 async function createButtonsFromCSV() {
