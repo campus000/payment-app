@@ -174,14 +174,14 @@ document.addEventListener('WebComponentsReady', function () {
                         printBatch(batchIndex + 1);
                     } else {
                         // All content has been printed
-                        alert("Receipt printing complete.");
+                      //  alert("Receipt printing complete.");
                                                                    clearAddedItems(); // Clear added items after printing
 
                     }
                 })
                 .catch(error => {
                     // Handle printing errors
-                    alert("Error printing receipt: " + error);
+                   // alert("Error printing receipt: " + error);
                 });
         }
 
@@ -191,12 +191,12 @@ document.addEventListener('WebComponentsReady', function () {
         // Print directly if the content is shorter than 512 characters
         sendTextData(receiptContent)
             .then(() => {
-                alert("Receipt printing complete.");
+               // alert("Receipt printing complete.");
                                              clearAddedItems(); // Clear added items after printing
             })
             .catch(error => {
                 // Handle printing errors
-                alert("Error printing receipt: " + error);
+                //alert("Error printing receipt: " + error);
             });
     }
 }
