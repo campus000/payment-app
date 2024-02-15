@@ -249,7 +249,7 @@ const addedItems = {};
 
 async function createButtonsFromCSV() {
   try {
-    const response = await fetch('menu.csv');
+   // const response = await fetch('menu.csv');
 
     const timestamp = new Date().getTime(); // This gives you the current timestamp
 
