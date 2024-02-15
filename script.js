@@ -249,7 +249,7 @@ const addedItems = {};
 
 async function createButtonsFromCSV() {
   try {
-    const response = await fetch('menu.csv');
+    const response = await fetch('https://drive.google.com/uc?export=view&id=1gDBo-kxPTCeV0Z6a5W1G6-u7XMR0rTYO');
     const csvData = await response.text();
 
     // Parse CSV data
