@@ -249,19 +249,9 @@ const addedItems = {};
 
 async function createButtonsFromCSV() {
   try {
-    //const response = await fetch('https://drive.google.com/uc?export=view&id=1gDBo-kxPTCeV0Z6a5W1G6-u7XMR0rTYO');
-    try {
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/'; // Use cors-anywhere proxy
-    const csvUrl = 'https://drive.google.com/uc?export=view&id=1gDBo-kxPTCeV0Z6a5W1G6-u7XMR0rTYO';
-    const response = await fetch(proxyUrl + csvUrl);
+    const response = await fetch('menu.csv');
+     
     const csvData = await response.text();
-
-    // Parse CSV data and create buttons
-    // ...
-  } catch (error) {
-    console.error('Error reading CSV file:', error);
-  }
-   // const csvData = await response.text();
 
     // Parse CSV data
     const rows = csvData.split('\n');
