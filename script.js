@@ -151,36 +151,51 @@ document.addEventListener('WebComponentsReady', function () {
 */function printReceipt() {
     const receiptContent = generateReceiptContent(); // Generate the receipt content
 
-    // Determine the batch size based on your requirement
-    const batchSize = 512; // or any other suitable batch size
+    // Check the size of the receipt content
+    if (receiptContent.length > 512) {
+        // Split the receipt content into smaller batches
+        const batchSize = 400; // Adjust batch size as needed
+        const numBatches = Math.ceil(receiptContent.length / batchSize);
+        let start = 0;
 
-    // Function to print each batch
-    function printBatch(batchIndex) {
-        // Calculate the start and end indices for the current batch
-        const start = batchIndex * batchSize;
-        const end = Math.min((batchIndex + 1) * batchSize, receiptContent.length);
-        const batchContent = receiptContent.substring(start, end);
+        // Function to print each batch
+        function printBatch(batchIndex) {
+            const end = Math.min(start + batchSize, receiptContent.length);
+            const batchContent = receiptContent.substring(start, end);
 
-        // Print the current batch
-        sendTextData(batchContent)
+            // Print the current batch
+            sendTextData(batchContent)
+                .then(() => {
+                    // Update the start index for the next batch
+                    start = end;
+
+                    // If there are more batches, print the next batch
+                    if (start < receiptContent.length) {
+                        printBatch(batchIndex + 1);
+                    } else {
+                        // All content has been printed
+                        alert("Receipt printing complete.");
+                    }
+                })
+                .catch(error => {
+                    // Handle printing errors
+                    alert("Error printing receipt: " + error);
+                });
+        }
+
+        // Start printing from the first batch
+        printBatch(0);
+    } else {
+        // Print directly if the content is shorter than 512 characters
+        sendTextData(receiptContent)
             .then(() => {
-                // If there's more content, print the next batch
-                if (end < receiptContent.length) {
-                    printBatch(batchIndex + 1);
-                } else {
-                    // All content has been printed
-                    progress.hidden = true; // Hide progress or perform final actions
-                }
+                alert("Receipt printing complete.");
             })
             .catch(error => {
                 // Handle printing errors
-                progress.hidden = true; // Hide progress
-                console.error("Error printing receipt:", error);
+                alert("Error printing receipt: " + error);
             });
     }
-
-    // Start printing from the first batch
-    printBatch(0);
 }
 
      function sendPrinterData() {
