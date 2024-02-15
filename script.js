@@ -191,6 +191,7 @@ document.addEventListener('WebComponentsReady', function () {
             .then(() => {
                 alert("Receipt printing complete.");
                                       document.getElementById('added-items').innerHTML = '';
+               addedItems = {};
             })
             .catch(error => {
                 // Handle printing errors
