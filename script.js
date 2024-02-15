@@ -175,6 +175,8 @@ document.addEventListener('WebComponentsReady', function () {
                     } else {
                         // All content has been printed
                         alert("Receipt printing complete.");
+                                                                   clearAddedItems(); // Clear added items after printing
+
                     }
                 })
                 .catch(error => {
