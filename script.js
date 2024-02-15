@@ -190,7 +190,7 @@ document.addEventListener('WebComponentsReady', function () {
         sendTextData(receiptContent)
             .then(() => {
                 alert("Receipt printing complete.");
-                                      document.getElementById('added-items').innerHTML = '';
+                                      document.getElementById('added-item').innerHTML = '';
             })
             .catch(error => {
                 // Handle printing errors
