@@ -207,7 +207,7 @@ document.addEventListener('WebComponentsReady', function () {
   }
 
   printButton.addEventListener('click', function () {
-    progress.hidden = false;
+    progress.hidden = true;
     if (printCharacteristic == null) {
       navigator.bluetooth.requestDevice({
         filters: [{
